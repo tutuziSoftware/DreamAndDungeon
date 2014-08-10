@@ -1,0 +1,27 @@
+<html ng-app='DAD'>
+	<head>
+		<script src='./lib/jquery-2.1.1.min.js'></script>
+		<script src='./lib/angular.min.js'></script>
+		<script src='./lib/inout.js'></script>
+		<script src='./battle.js'></script>
+	</head>
+	<body>
+		<div ng-controller='charactersController'>
+			<ul ng-repeat='character in characters'>
+				<li>
+					<div>PC:{{character.name}}</div>
+					<div>HP:{{character.hp}}</div>
+					<div>MP:{{character.mp}}</div>
+					<div>状態:{{character.status.toString()}}</div>
+					<div dad-character-action>
+						<button dad-action='attack'>こうげき</button>
+						<button dad-action='block'>ぼうぎょ</button>
+						<button dad-action='move'>いどう</button>
+						<button dad-action='fullmove'>いどう　に　せんねん</button>
+						<button dad-action-cancel>キャンセル</button>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</body>
+</html>
