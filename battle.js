@@ -12,20 +12,21 @@ DAD.controller('charactersController', function($scope){
 	var inout = new InOut();
 
 	statusToStatusObject('characters');
+	statusToStatusObject('enemys');
 
 	/**
 	 * 取得したデータのキー「status」をオブジェクトに置換します。
-	 * @param scopeKey
+	 * @param unitsKey
 	 */
-	function statusToStatusObject(scopeKey){
+	function statusToStatusObject(unitsKey){
 		inout.get(function(characters){
 			Object.keys(characters).forEach(function(characterKey){
 				var character = characters[characterKey];
 				character.status = STATUS[character.status];
 			});
 
-			$scope[scopeKey] = characters;
-		}, 'characters');
+			$scope[unitsKey] = characters;
+		}, unitsKey);
 	}
 });
 
