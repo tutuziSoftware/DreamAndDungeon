@@ -9,19 +9,7 @@ DAD.controller('charactersController', function($scope){
 		}
 	}
 
-	var inout = new InOut(function(that){
-		if(that.characters === void 0){
-			that.set(JSON.stringify({
-				"charId":{
-					"name":"リカ",
-					"hp":1,
-					"mp":1,
-					"sun":99,
-					"status":'NONE'
-				}
-			}, 'characters'));
-		}
-	});
+	var inout = new InOut();
 
 	inout.get(function(characters){
 		Object.keys(characters).forEach(function(characterKey){
@@ -30,12 +18,7 @@ DAD.controller('charactersController', function($scope){
 		});
 
 		$scope.characters = characters;
-	});
-
-
-	$scope.cancelAction = function(){
-
-	};
+	}, 'characters');
 });
 
 DAD.directive('dadCharacterAction', function() {
