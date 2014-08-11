@@ -11,8 +11,7 @@
 				<li>
 					<div>PC:{{character.name}}</div>
 					<div>HP:{{character.hp}}</div>
-					<div>MP:{{character.mp}}</div>
-					<div>状態:{{character.status.toString()}}</div>
+					<div>ST:{{character.status.toString()}}</div>
 					<div dad-character-action>
 						<button dad-action='slap'>なぐる</button>
 						<button dad-action='attack'>ぶき</button>
@@ -20,6 +19,12 @@
 						<button dad-action='move'>いどう</button>
 						<button dad-action='fullmove'>いどう　に　せんねん</button>
 					</div>
+				</li>
+			</ul>
+			<ul ng-repeat='enemy in enemys'>
+				<li>
+					<div>NA:{{enemy.name}}</div>
+					<div>ST:{{enemy.status.toString()}}</div>
 				</li>
 			</ul>
 		</div>

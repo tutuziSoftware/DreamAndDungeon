@@ -11,14 +11,23 @@ DAD.controller('charactersController', function($scope){
 
 	var inout = new InOut();
 
-	inout.get(function(characters){
-		Object.keys(characters).forEach(function(characterKey){
-			var character = characters[characterKey];
-			character.status = STATUS[character.status];
-		});
+	statusToStatusObject('characters');
+	statusToStatusObject('enemys');
 
-		$scope.characters = characters;
-	}, 'characters');
+	/**
+	 * 取得したデータのキー「status」をオブジェクトに置換します。
+	 * @param unitsKey
+	 */
+	function statusToStatusObject(unitsKey){
+		inout.get(function(characters){
+			Object.keys(characters).forEach(function(characterKey){
+				var character = characters[characterKey];
+				character.status = STATUS[character.status];
+			});
+
+			$scope[unitsKey] = characters;
+		}, unitsKey);
+	}
 });
 
 DAD.directive('dadCharacterAction', function() {
