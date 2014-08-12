@@ -19,7 +19,7 @@
 						<button dad-action='block'>ぼうぎょ</button>
 						<button dad-action='move'>いどう</button>
 						<button dad-action='fullmove'>いどう　に　せんねん</button>
-						<button ng-click='nextTurn()'>ターンエンド</button>
+						<button ng-click='nextTurn(character)'>ターンエンド</button>
 					</div>
 				</li>
 			</ul>
@@ -29,6 +29,14 @@
 					<div>ST:{{enemy.status.toString()}}</div>
 				</li>
 			</ul>
+			<dl>
+				<dt>ログ</dt>
+				<dd>
+					<ul>
+						<li ng-repeat='line in log track by $index'>{{line}}</li>
+					</ul>
+				</dd>
+			</dl>
 			<dl>
 				<dt>行動順</dt>
 				<dd>

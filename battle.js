@@ -9,12 +9,14 @@ DAD.controller('charactersController', function($scope){
 		}
 	}
 
+	var UNITGROUP_NAMES = ['characters', 'enemys'];
+
 	var inout = new InOut();
 	//必要なデータ構造
 	$scope.actionQueue = new ActionQueue();
 
 	//ユニット登録
-	['characters', 'enemys'].forEach(function(unitsKey){
+	UNITGROUP_NAMES.forEach(function(unitsKey){
 		inout.get(function(units){
 			statusToStatusObject(units);
 			addActionQueue(units);
@@ -23,10 +25,18 @@ DAD.controller('charactersController', function($scope){
 	});
 
 	$scope.turnUnit = $scope.actionQueue.toTurn();
+	$scope.log = [];
 
-	$scope.nextTurn = function(){
+	$scope.nextTurn = function(unit){
+		$scope.log.push(unit.name + "　のターンを終了");
+
 		$scope.actionQueue.next();
 		$scope.turnUnit = $scope.actionQueue.toTurn();
+
+		if($scope['enemys'][$scope.turnUnit.id]){
+			$scope.log.push($scope.turnUnit.name + "のターン！")
+			$scope.nextTurn($scope.turnUnit);
+		}
 	}
 
 	/**
