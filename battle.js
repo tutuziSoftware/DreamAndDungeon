@@ -9,17 +9,35 @@ DAD.controller('charactersController', function($scope){
 		}
 	}
 
+	var UNITGROUP_NAMES = ['characters', 'enemys'];
+
 	var inout = new InOut();
 	//必要なデータ構造
 	$scope.actionQueue = new ActionQueue();
 
-	['characters', 'enemys'].forEach(function(unitsKey){
+	//ユニット登録
+	UNITGROUP_NAMES.forEach(function(unitsKey){
 		inout.get(function(units){
 			statusToStatusObject(units);
 			addActionQueue(units);
 			$scope[unitsKey] = units;
 		}, unitsKey);
 	});
+
+	$scope.turnUnit = $scope.actionQueue.toTurn();
+	$scope.log = [];
+
+	$scope.nextTurn = function(unit){
+		$scope.log.push(unit.name + "　のターンを終了");
+
+		$scope.actionQueue.next();
+		$scope.turnUnit = $scope.actionQueue.toTurn();
+
+		if($scope['enemys'][$scope.turnUnit.id]){
+			$scope.log.push($scope.turnUnit.name + "のターン！")
+			$scope.nextTurn($scope.turnUnit);
+		}
+	}
 
 	/**
 	 * 取得したデータのキー「status」をオブジェクトに置換します。

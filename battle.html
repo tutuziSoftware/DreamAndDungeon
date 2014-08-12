@@ -13,12 +13,13 @@
 					<div>PC:{{character.name}}</div>
 					<div>HP:{{character.hp}}</div>
 					<div>ST:{{character.status.toString()}}</div>
-					<div dad-character-action>
+					<div dad-character-action ng-show='character == turnUnit'>
 						<button dad-action='slap'>なぐる</button>
 						<button dad-action='attack'>ぶき</button>
 						<button dad-action='block'>ぼうぎょ</button>
 						<button dad-action='move'>いどう</button>
 						<button dad-action='fullmove'>いどう　に　せんねん</button>
+						<button ng-click='nextTurn(character)'>ターンエンド</button>
 					</div>
 				</li>
 			</ul>
@@ -28,6 +29,14 @@
 					<div>ST:{{enemy.status.toString()}}</div>
 				</li>
 			</ul>
+			<dl>
+				<dt>ログ</dt>
+				<dd>
+					<ul>
+						<li ng-repeat='line in log track by $index'>{{line}}</li>
+					</ul>
+				</dd>
+			</dl>
 			<dl>
 				<dt>行動順</dt>
 				<dd>
