@@ -10,6 +10,8 @@ DAD.controller('charactersController', function($scope){
 	}
 
 	var inout = new InOut();
+	//必要なデータ構造
+	$scope.actionQueue = new ActionQueue();
 
 	statusToStatusObject('characters');
 	statusToStatusObject('enemys');
@@ -26,6 +28,10 @@ DAD.controller('charactersController', function($scope){
 			});
 
 			$scope[unitsKey] = characters;
+
+			Object.keys($scope[unitsKey]).forEach(function(characterKey){
+				$scope.actionQueue.add($scope[unitsKey][characterKey]);
+			});
 		}, unitsKey);
 	}
 });

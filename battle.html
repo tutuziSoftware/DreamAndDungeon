@@ -3,6 +3,7 @@
 		<script src='./lib/jquery-2.1.1.min.js'></script>
 		<script src='./lib/angular.min.js'></script>
 		<script src='./lib/inout.js'></script>
+		<script src='./ActionQueue.js'></script>
 		<script src='./battle.js'></script>
 	</head>
 	<body>
@@ -27,6 +28,14 @@
 					<div>ST:{{enemy.status.toString()}}</div>
 				</li>
 			</ul>
+			<dl>
+				<dt>行動順</dt>
+				<dd>
+					<ol>
+						<li ng-repeat='unit in actionQueue.queue'>{{unit.name}}</li>
+					</ol>
+				</dd>
+			</dl>
 		</div>
 	</body>
 </html>
