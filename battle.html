@@ -13,12 +13,13 @@
 					<div>PC:{{character.name}}</div>
 					<div>HP:{{character.hp}}</div>
 					<div>ST:{{character.status.toString()}}</div>
-					<div dad-character-action>
+					<div dad-character-action ng-show='character == turnUnit'>
 						<button dad-action='slap'>なぐる</button>
 						<button dad-action='attack'>ぶき</button>
 						<button dad-action='block'>ぼうぎょ</button>
 						<button dad-action='move'>いどう</button>
 						<button dad-action='fullmove'>いどう　に　せんねん</button>
+						<button ng-click='nextTurn()'>ターンエンド</button>
 					</div>
 				</li>
 			</ul>

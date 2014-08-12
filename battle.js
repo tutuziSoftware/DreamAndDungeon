@@ -13,6 +13,7 @@ DAD.controller('charactersController', function($scope){
 	//必要なデータ構造
 	$scope.actionQueue = new ActionQueue();
 
+	//ユニット登録
 	['characters', 'enemys'].forEach(function(unitsKey){
 		inout.get(function(units){
 			statusToStatusObject(units);
@@ -20,6 +21,13 @@ DAD.controller('charactersController', function($scope){
 			$scope[unitsKey] = units;
 		}, unitsKey);
 	});
+
+	$scope.turnUnit = $scope.actionQueue.toTurn();
+
+	$scope.nextTurn = function(){
+		$scope.actionQueue.next();
+		$scope.turnUnit = $scope.actionQueue.toTurn();
+	}
 
 	/**
 	 * 取得したデータのキー「status」をオブジェクトに置換します。
