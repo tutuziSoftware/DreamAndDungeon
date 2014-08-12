@@ -13,26 +13,32 @@ DAD.controller('charactersController', function($scope){
 	//必要なデータ構造
 	$scope.actionQueue = new ActionQueue();
 
-	statusToStatusObject('characters');
-	statusToStatusObject('enemys');
+	['characters', 'enemys'].forEach(function(unitsKey){
+		inout.get(function(units){
+			statusToStatusObject(units);
+			addActionQueue(units);
+			$scope[unitsKey] = units;
+		}, unitsKey);
+	});
 
 	/**
 	 * 取得したデータのキー「status」をオブジェクトに置換します。
 	 * @param unitsKey
 	 */
-	function statusToStatusObject(unitsKey){
-		inout.get(function(characters){
-			Object.keys(characters).forEach(function(characterKey){
-				var character = characters[characterKey];
-				character.status = STATUS[character.status];
-			});
+	function statusToStatusObject(units){
+		Object.keys(units).forEach(function(unitsKey){
+			var unit = units[unitsKey];
+			unit.status = STATUS[unit.status];
+		});
+	}
 
-			$scope[unitsKey] = characters;
-
-			Object.keys($scope[unitsKey]).forEach(function(characterKey){
-				$scope.actionQueue.add($scope[unitsKey][characterKey]);
-			});
-		}, unitsKey);
+	/**
+	 * ユニットを行動キューに登録します。
+	 */
+	function addActionQueue(units){
+		Object.keys(units).forEach(function(unitsKey){
+			$scope.actionQueue.add(units[unitsKey]);
+		});
 	}
 });
 
