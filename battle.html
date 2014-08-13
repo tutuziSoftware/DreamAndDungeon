@@ -14,6 +14,7 @@
 					<div>PC:{{character.name}}</div>
 					<div>HP:{{character.hp}}</div>
 					<div>ST:{{character.status.toString()}}</div>
+					<div>PO:{{getPoint(character.id)}}</div>
 					<div dad-character-action ng-show='character == turnUnit'>
 						<button dad-action='slap'>なぐる</button>
 						<button dad-action='attack'>ぶき</button>
@@ -28,6 +29,7 @@
 				<li>
 					<div>NA:{{enemy.name}}</div>
 					<div>ST:{{enemy.status.toString()}}</div>
+					<div>PO:{{getPoint(enemy.id)}}</div>
 				</li>
 			</ul>
 			<dl>

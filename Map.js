@@ -2,16 +2,16 @@ function Map(callback){
 	this._units = {};
 	this._point = {};
 
+	var self = this;
 	this._inout = new InOut();
 	this._inout.get(function(maps){
+		for(var key in maps){
+			var point = key.split(',');
+			self.add(point[0], point[1], maps[key]);
+		}
+
 		if(callback) callback();
 	}, 'maps');
-
-	Object.defineProperty(Map, 'map', {
-		get:function(){
-			return this._point;
-		}
-	});
 }
 
 Map.prototype = {
@@ -27,8 +27,8 @@ Map.prototype = {
 
 		this._inout.set(this._point, 'maps');
 	},
-	findPoint:function(unitId, callback){
-		callback(this._units[unitId]);
+	getPoint:function(unitId){
+		return this._units[unitId];
 	},
 	_isUnitExist:function(x, y){
 		return !!this._point[this._getPointKey(x,y)];

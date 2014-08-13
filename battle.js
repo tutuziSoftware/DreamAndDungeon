@@ -14,7 +14,7 @@ DAD.controller('charactersController', function($scope){
 	var inout = new InOut();
 	//必要なデータ構造
 	$scope.actionQueue = new ActionQueue();
-	$scope._point = new Map;
+	var map = new Map;
 
 	//ユニット登録
 	UNITGROUP_NAMES.forEach(function(unitsKey){
@@ -39,6 +39,8 @@ DAD.controller('charactersController', function($scope){
 			$scope.nextTurn($scope.turnUnit);
 		}
 	}
+
+	$scope.getPoint = map.getPoint.bind(map);
 
 	/**
 	 * 取得したデータのキー「status」をオブジェクトに置換します。
