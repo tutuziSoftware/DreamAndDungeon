@@ -14,6 +14,7 @@ DAD.controller('charactersController', function($scope){
 	var inout = new InOut();
 	//必要なデータ構造
 	$scope.actionQueue = new ActionQueue();
+	$scope._point = new Map;
 
 	//ユニット登録
 	UNITGROUP_NAMES.forEach(function(unitsKey){
