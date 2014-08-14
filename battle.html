@@ -19,8 +19,13 @@
 						<button dad-action='slap'>なぐる</button>
 						<button dad-action='attack'>ぶき</button>
 						<button dad-action='block'>ぼうぎょ</button>
-						<button dad-action='move'>いどう</button>
-						<button dad-action='fullmove'>いどう　に　せんねん</button>
+						<div>
+							<button ng-click='move = true' ng-hide='move'>いどう</button>
+							<button ng-click='moveTo(character.id, TOP)' ng-show='move'>うえ</button>
+							<button ng-click='moveTo(character.id, RIGHT)' ng-show='move'>みぎ</button>
+							<button ng-click='moveTo(character.id, BOTTOM)' ng-show='move'>した</button>
+							<button ng-click='moveTo(character.id, LEFT)' ng-show='move'>ひだり</button>
+						</div>
 						<button ng-click='nextTurn(character)'>ターンエンド</button>
 					</div>
 				</li>

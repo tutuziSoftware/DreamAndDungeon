@@ -14,6 +14,11 @@ function Map(callback){
 	}, 'maps');
 }
 
+Map.TOP = {x:0,y:-1};
+Map.RIGHT = {x:1,y:0};
+Map.BOTTOM = {x:0,y:1};
+Map.LEFT = {x:-1,y:0};
+
 Map.prototype = {
 	add:function(x, y, unitId){
 		if(this._isUnitExist(x, y)){
@@ -26,6 +31,29 @@ Map.prototype = {
 		this._units[unitId] = point;
 
 		this._inout.set(this._point, 'maps');
+	},
+	moveUnit:function(unitId, move){
+		var pointKey = this._units[unitId];
+
+		remove.call(this, unitId, pointKey);
+		_move.call(this, unitId, pointKey, move);
+
+		function remove(unitId, pointKey){
+			delete this._units[unitId];
+			delete this._point[pointKey];
+		}
+
+		function _move(unitId, pointKey, move){
+			var point = pointKey.split(',');
+
+			var oldX = +(point[0]);
+			var oldY = +(point[1]);
+
+			var x = oldX + move.x;
+			var y = oldY + move.y;
+
+			this.add(x, y, unitId);
+		}
 	},
 	getPoint:function(unitId){
 		return this._units[unitId];

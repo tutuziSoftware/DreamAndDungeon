@@ -14,7 +14,6 @@ DAD.controller('charactersController', function($scope){
 	var inout = new InOut();
 	//必要なデータ構造
 	$scope.actionQueue = new ActionQueue();
-	var map = new Map;
 
 	//ユニット登録
 	UNITGROUP_NAMES.forEach(function(unitsKey){
@@ -40,7 +39,12 @@ DAD.controller('charactersController', function($scope){
 		}
 	}
 
+	var map = new Map;
+	['TOP','RIGHT','BOTTOM','LEFT'].forEach(function(key){
+		$scope[key] = Map[key];
+	});
 	$scope.getPoint = map.getPoint.bind(map);
+	$scope.moveTo = map.moveUnit.bind(map);
 
 	/**
 	 * 取得したデータのキー「status」をオブジェクトに置換します。
@@ -78,7 +82,7 @@ DAD.directive('dadAction', function() {
 			scope.isAction = attr.dadAction;
 
 			$(element)
-				.parent('[dad-character-action]')
+				.parents('[dad-character-action]')
 				.find('[dad-action!='+attr.dadAction+']')
 				.hide();
 			$('[dad-action-cancel]').show();
@@ -97,7 +101,7 @@ DAD.directive('dadActionCancel', function() {
 			scope.isAction = '';
 
 			$(element)
-				.parent('[dad-character-action]')
+				.parents('[dad-character-action]')
 				.find('[dad-action!='+attr.dadAction+']')
 				.show();
 
