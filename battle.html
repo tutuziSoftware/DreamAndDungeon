@@ -15,18 +15,17 @@
 					<div>HP:{{character.hp}}</div>
 					<div>ST:{{character.status.toString()}}</div>
 					<div>PO:{{getPoint(character.id)}}</div>
-					<div dad-character-action ng-show='character == turnUnit'>
-						<button dad-action='slap'>なぐる</button>
-						<button dad-action='attack'>ぶき</button>
-						<button dad-action='block'>ぼうぎょ</button>
-						<div>
-							<button ng-click='move = true' ng-hide='move'>いどう</button>
-							<button ng-click='moveTo(character.id, TOP)' ng-show='move'>うえ</button>
-							<button ng-click='moveTo(character.id, RIGHT)' ng-show='move'>みぎ</button>
-							<button ng-click='moveTo(character.id, BOTTOM)' ng-show='move'>した</button>
-							<button ng-click='moveTo(character.id, LEFT)' ng-show='move'>ひだり</button>
+					<div ng-controller='actionsManipulator' ng-show='character == turnUnit'>
+						<button
+							ng-repeat='action in actions'
+							ng-show='selectAction == ""'
+							ng-click='nextAction(action.name)'>{{action.japanese}}</button>
+						<div ng-show='selectAction == "move"'>
+							<button ng-click='moveTo(character.id, TOP)'>うえ</button>
+							<button ng-click='moveTo(character.id, RIGHT)'>みぎ</button>
+							<button ng-click='moveTo(character.id, BOTTOM)'>した</button>
+							<button ng-click='moveTo(character.id, LEFT)'>ひだり</button>
 						</div>
-						<button ng-click='nextTurn(character)'>ターンエンド</button>
 					</div>
 				</li>
 			</ul>

@@ -9,14 +9,12 @@ DAD.controller('charactersController', function($scope){
 		}
 	}
 
-	var UNITGROUP_NAMES = ['characters', 'enemys'];
-
 	var inout = new InOut();
 	//必要なデータ構造
 	$scope.actionQueue = new ActionQueue();
 
 	//ユニット登録
-	UNITGROUP_NAMES.forEach(function(unitsKey){
+	['characters', 'enemys'].forEach(function(unitsKey){
 		inout.get(function(units){
 			statusToStatusObject(units);
 			addActionQueue(units);
@@ -27,6 +25,10 @@ DAD.controller('charactersController', function($scope){
 	$scope.turnUnit = $scope.actionQueue.toTurn();
 	$scope.log = [];
 
+	/**
+	 * ターン終了時に呼ばれるメソッドです。
+	 * @param unit
+	 */
 	$scope.nextTurn = function(unit){
 		$scope.log.push(unit.name + "　のターンを終了");
 
@@ -41,9 +43,23 @@ DAD.controller('charactersController', function($scope){
 
 	var map = new Map;
 	['TOP','RIGHT','BOTTOM','LEFT'].forEach(function(key){
+		/**
+		 * ユニットがどこに移動するかを示す定数です。
+		 * @type {*}
+		 */
 		$scope[key] = Map[key];
 	});
+
+	/**
+	 * ユニットの位置を返すメソッドです。
+	 * @type {*}
+	 */
 	$scope.getPoint = map.getPoint.bind(map);
+
+	/**
+	 * ユニットの移動を行う為のメソッドです。
+	 * @type {*}
+	 */
 	$scope.moveTo = map.moveUnit.bind(map);
 
 	/**
@@ -67,45 +83,50 @@ DAD.controller('charactersController', function($scope){
 	}
 });
 
-DAD.directive('dadCharacterAction', function() {
-	return {
-		scope:true
+/**
+ * ユニットに行動を命じる為のUI描写周りを担当するコントローラです。
+ * このコントローラはUI操作以上の事をなるべく行わないようにしてください。
+ */
+DAD.controller('actionsManipulator', function($scope){
+	$scope.selectAction = '';
+	$scope.actions = [
+		{
+			name:'slap',
+			japanese:'なぐる'
+		},
+		{
+			name:'attack',
+			japanese:'こうげき'
+		},
+		{
+			name:'block',
+			japanese:'ぼうぎょ'
+		},
+		{
+			name:'move',
+			japanese:'いどう'
+		},
+		{
+			name:'turnEnd',
+			japanese:'こうどうしゅうりょう'
+		}
+	];
+
+	/**
+	 * 行動の詳細へ移動します。
+	 * @param actionName
+	 */
+	$scope.nextAction = function(actionName){
+		$scope.selectAction = actionName;
 	}
-});
 
-/**
- * dad-character-actionを基点にdad-actionを持つDOMに対して表示・非表示を制御する為のdirectiveです。
- */
-DAD.directive('dadAction', function() {
-	return function(scope, element, attr) {
-		$(element).click(function(){
-			scope.isAction = attr.dadAction;
-
-			$(element)
-				.parents('[dad-character-action]')
-				.find('[dad-action!='+attr.dadAction+']')
-				.hide();
-			$('[dad-action-cancel]').show();
-
-			scope.$apply();
-		});
-	};
-});
-
-/**
- * dad-character-actionを基点に全てのdad-actionを表示します。
- */
-DAD.directive('dadActionCancel', function() {
-	return function(scope, element, attr) {
-		$(element).click(function(){
-			scope.isAction = '';
-
-			$(element)
-				.parents('[dad-character-action]')
-				.find('[dad-action!='+attr.dadAction+']')
-				.show();
-
-			scope.$apply();
-		}).hide();
+	/**
+	 * ユニットを移動させ、行動マニピュレータを初期状態に戻します。
+	 * @param characterId
+	 * @param move
+	 */
+	$scope.moveTo = function(characterId, move){
+		$scope.__proto__.moveTo(characterId, move);
+		$scope.selectAction = '';
 	};
 });
