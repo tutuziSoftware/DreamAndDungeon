@@ -78,8 +78,7 @@ DAD.directive('dadAction', function() {
 			scope.isAction = attr.dadAction;
 
 			$(element)
-				.parent()
-				.filter('[dad-character-action]')
+				.parent('[dad-character-action]')
 				.find('[dad-action!='+attr.dadAction+']')
 				.hide();
 			$('[dad-action-cancel]').show();
@@ -98,8 +97,7 @@ DAD.directive('dadActionCancel', function() {
 			scope.isAction = '';
 
 			$(element)
-				.parent()
-				.filter('[dad-character-action]')
+				.parent('[dad-character-action]')
 				.find('[dad-action!='+attr.dadAction+']')
 				.show();
 
