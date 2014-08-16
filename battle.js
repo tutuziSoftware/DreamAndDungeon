@@ -120,13 +120,7 @@ DAD.controller('actionsManipulator', function($scope){
 		$scope.selectAction = actionName;
 	}
 
-	/**
-	 * ユニットを移動させ、行動マニピュレータを初期状態に戻します。
-	 * @param characterId
-	 * @param move
-	 */
-	$scope.moveTo = function(characterId, move){
-		$scope.__proto__.moveTo(characterId, move);
+	$scope.clearSelectAction = function(){
 		$scope.selectAction = '';
-	};
+	}
 });
