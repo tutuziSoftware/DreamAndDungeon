@@ -16,8 +16,7 @@ DAD.controller('charactersController', function($scope){
 	//ユニット登録
 	['characters', 'enemys'].forEach(function(unitsKey){
 		inout.get(function(units){
-			statusToStatusObject(units);
-			addActionQueue(units);
+			roopUnits(units, [statusToStatusObject, addActionQueue]);
 			$scope[unitsKey] = units;
 		}, unitsKey);
 	});
@@ -62,24 +61,27 @@ DAD.controller('charactersController', function($scope){
 	 */
 	$scope.moveTo = map.moveUnit.bind(map);
 
+	function roopUnits(units, functions){
+		Object.keys(units).forEach(function(unitsKey){
+			functions.forEach(function(f){
+				f(units[unitsKey]);
+			});
+		});
+	}
+
 	/**
 	 * 取得したデータのキー「status」をオブジェクトに置換します。
 	 * @param unitsKey
 	 */
-	function statusToStatusObject(units){
-		Object.keys(units).forEach(function(unitsKey){
-			var unit = units[unitsKey];
-			unit.status = STATUS[unit.status];
-		});
+	function statusToStatusObject(unit){
+		unit.status = STATUS[unit.status];
 	}
 
 	/**
 	 * ユニットを行動キューに登録します。
 	 */
-	function addActionQueue(units){
-		Object.keys(units).forEach(function(unitsKey){
-			$scope.actionQueue.add(units[unitsKey]);
-		});
+	function addActionQueue(unit){
+		$scope.actionQueue.add(unit);
 	}
 });
 
