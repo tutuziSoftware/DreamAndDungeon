@@ -16,7 +16,11 @@ DAD.controller('charactersController', function($scope){
 	//ユニット登録
 	['characters', 'enemys'].forEach(function(unitsKey){
 		inout.get(function(units){
-			roopUnits(units, [statusToStatusObject, addActionQueue]);
+			roopUnits(units, [
+				statusToStatusObject,
+				addActionQueue,
+				addCountAction]
+			);
 			$scope[unitsKey] = units;
 		}, unitsKey);
 	});
@@ -82,6 +86,12 @@ DAD.controller('charactersController', function($scope){
 	 */
 	function addActionQueue(unit){
 		$scope.actionQueue.add(unit);
+	}
+
+	function addCountAction(unit){
+		if(unit.countAction === void 0){
+			unit.countAction = 0;
+		}
 	}
 });
 
