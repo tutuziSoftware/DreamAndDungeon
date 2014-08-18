@@ -49,7 +49,7 @@ DAD.controller('charactersController', function($scope){
 	 * ターン終了時に呼ばれるメソッドです。
 	 * @param unit
 	 */
-	$scope.nextTurn = function(unit){
+	$scope.nextTurn = function(){
 		$scope.log.push($scope.actionQueue.toTurn().name + "　のターンを終了");
 
 		$scope.actionQueue.next();
@@ -80,8 +80,8 @@ DAD.controller('charactersController', function($scope){
 	 * ユニットの移動を行う為のメソッドです。
 	 * @type {*}
 	 */
-	$scope.moveTo = function(characterId, move){
-		map.moveUnit(characterId, move);
+	$scope.moveTo = function(move){
+		map.moveUnit($scope.actionQueue.toTurn().id, move);
 		myTurnUnitActionCount++;
 
 		if(myTurnUnitActionCount == 2){

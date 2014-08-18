@@ -21,16 +21,16 @@
 							ng-show='selectAction == ""'
 							ng-click='nextAction(action.name)'>{{action.japanese}}</button>
 						<div ng-show='selectAction == "move"'>
-							<button ng-click='moveTo(character.id, TOP);clearSelectAction()'>
+							<button ng-click='moveTo(TOP);clearSelectAction()'>
 								うえ
 							</button>
-							<button ng-click='moveTo(character.id, RIGHT);clearSelectAction()'>
+							<button ng-click='moveTo(RIGHT);clearSelectAction()'>
 								みぎ
 							</button>
-							<button ng-click='moveTo(character.id, BOTTOM);clearSelectAction()'>
+							<button ng-click='moveTo(BOTTOM);clearSelectAction()'>
 								した
 							</button>
-							<button ng-click='moveTo(character.id, LEFT);clearSelectAction()'>
+							<button ng-click='moveTo(LEFT);clearSelectAction()'>
 								ひだり
 							</button>
 						</div>
