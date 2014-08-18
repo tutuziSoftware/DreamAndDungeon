@@ -1,3 +1,7 @@
+/**
+ * ユニットの行動順と今誰のターンであるかを示します
+ * @constructor
+ */
 function ActionQueue(){
 	this.queue = [];
 	this.index = 0;
@@ -29,6 +33,10 @@ ActionQueue.prototype = {
 
 		if(this.queue[this.index] === void 0) this.index = 0;
 	},
+	/**
+	 * 行動出来るユニットを強制的に変更します
+	 * @param unitId
+	 */
 	focus:function(unitId){
 		for(var i = 0 ; i != this.queue.length ; i++){
 			if(this.queue[i] == unitId){

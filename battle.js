@@ -25,6 +25,13 @@ DAD.controller('charactersController', function($scope){
 		}, unitsKey);
 	});
 
+	/**
+	 * ユニットの行動回数を記録します。
+	 * この数値とアクションキューが分離されているのは、
+	 * アクションキューはユニットの行動順のみを規定する為のもので、
+	 * 行動回数とは分離されているべきだという考えのもので行っています。
+	 * @type {Number}
+	 */
 	var myTurnUnitActionCount = 0;
 
 	inout.get(function(unitId){
