@@ -16,11 +16,38 @@ DAD.controller('charactersController', function($scope){
 	//ユニット登録
 	['characters', 'enemys'].forEach(function(unitsKey){
 		inout.get(function(units){
-			statusToStatusObject(units);
-			addActionQueue(units);
+			roopUnits(units, [
+				statusToStatusObject,
+				addActionQueue,
+				addCountAction]
+			);
 			$scope[unitsKey] = units;
 		}, unitsKey);
 	});
+
+	/**
+	 * ユニットの行動回数を記録します。
+	 * この数値とアクションキューが分離されているのは、
+	 * アクションキューはユニットの行動順のみを規定する為のもので、
+	 * 行動回数とは分離されているべきだという考えのもので行っています。
+	 * @type {Number}
+	 */
+	var myTurnUnitActionCount = 0;
+
+	inout.get(function(unitId){
+		//初期化処理
+		if(unitId == InOut.KEY_NOT_EXIST){
+			inout.set(unitId, 'myTurnUnit');
+			inout.set(0, 'myTurnUnitActionCount');
+			myTurnUnitActionCount = 0;
+			return;
+		}
+
+		inout.get(function(count){
+			myTurnUnitActionCount = +count;
+		}, 'myTurnUnitActionCount');
+		$scope.actionQueue.focus(unitId);
+	}, 'myTurnUnit');
 
 	$scope.turnUnit = $scope.actionQueue.toTurn();
 	$scope.log = [];
@@ -29,8 +56,8 @@ DAD.controller('charactersController', function($scope){
 	 * ターン終了時に呼ばれるメソッドです。
 	 * @param unit
 	 */
-	$scope.nextTurn = function(unit){
-		$scope.log.push(unit.name + "　のターンを終了");
+	$scope.nextTurn = function(){
+		$scope.log.push($scope.actionQueue.toTurn().name + "　のターンを終了");
 
 		$scope.actionQueue.next();
 		$scope.turnUnit = $scope.actionQueue.toTurn();
@@ -60,26 +87,43 @@ DAD.controller('charactersController', function($scope){
 	 * ユニットの移動を行う為のメソッドです。
 	 * @type {*}
 	 */
-	$scope.moveTo = map.moveUnit.bind(map);
+	$scope.moveTo = function(move){
+		map.moveUnit($scope.actionQueue.toTurn().id, move);
+		myTurnUnitActionCount++;
+
+		if(myTurnUnitActionCount == 2){
+			myTurnUnitActionCount = 0;
+			$scope.nextTurn();
+		}
+	};
+
+	function roopUnits(units, functions){
+		Object.keys(units).forEach(function(unitsKey){
+			functions.forEach(function(f){
+				f(units[unitsKey]);
+			});
+		});
+	}
 
 	/**
 	 * 取得したデータのキー「status」をオブジェクトに置換します。
 	 * @param unitsKey
 	 */
-	function statusToStatusObject(units){
-		Object.keys(units).forEach(function(unitsKey){
-			var unit = units[unitsKey];
-			unit.status = STATUS[unit.status];
-		});
+	function statusToStatusObject(unit){
+		unit.status = STATUS[unit.status];
 	}
 
 	/**
 	 * ユニットを行動キューに登録します。
 	 */
-	function addActionQueue(units){
-		Object.keys(units).forEach(function(unitsKey){
-			$scope.actionQueue.add(units[unitsKey]);
-		});
+	function addActionQueue(unit){
+		$scope.actionQueue.add(unit);
+	}
+
+	function addCountAction(unit){
+		if(unit.countAction === void 0){
+			unit.countAction = 0;
+		}
 	}
 });
 
