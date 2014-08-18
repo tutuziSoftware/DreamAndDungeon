@@ -29,6 +29,13 @@ ActionQueue.prototype = {
 
 		if(this.queue[this.index] === void 0) this.index = 0;
 	},
+	focus:function(unitId){
+		for(var i = 0 ; i != this.queue.length ; i++){
+			if(this.queue[i] == unitId){
+				this.index = i;
+			}
+		}
+	},
 	/**
 	 * 全てのユニットを探索し、speed順にソートを行います。
 	 * また、システム上不要となったユニットをキューから排除する事も行います。

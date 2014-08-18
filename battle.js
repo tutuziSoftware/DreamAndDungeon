@@ -25,6 +25,23 @@ DAD.controller('charactersController', function($scope){
 		}, unitsKey);
 	});
 
+	var myTurnUnitActionCount = 0;
+
+	inout.get(function(unitId){
+		//初期化処理
+		if(unitId == InOut.KEY_NOT_EXIST){
+			inout.set(unitId, 'myTurnUnit');
+			inout.set(0, 'myTurnUnitActionCount');
+			myTurnUnitActionCount = 0;
+			return;
+		}
+
+		inout.get(function(count){
+			myTurnUnitActionCount = +count;
+		}, 'myTurnUnitActionCount');
+		$scope.actionQueue.focus(unitId);
+	}, 'myTurnUnit');
+
 	$scope.turnUnit = $scope.actionQueue.toTurn();
 	$scope.log = [];
 
@@ -33,7 +50,7 @@ DAD.controller('charactersController', function($scope){
 	 * @param unit
 	 */
 	$scope.nextTurn = function(unit){
-		$scope.log.push(unit.name + "　のターンを終了");
+		$scope.log.push($scope.actionQueue.toTurn().name + "　のターンを終了");
 
 		$scope.actionQueue.next();
 		$scope.turnUnit = $scope.actionQueue.toTurn();
@@ -63,7 +80,15 @@ DAD.controller('charactersController', function($scope){
 	 * ユニットの移動を行う為のメソッドです。
 	 * @type {*}
 	 */
-	$scope.moveTo = map.moveUnit.bind(map);
+	$scope.moveTo = function(characterId, move){
+		map.moveUnit(characterId, move);
+		myTurnUnitActionCount++;
+
+		if(myTurnUnitActionCount == 2){
+			myTurnUnitActionCount = 0;
+			$scope.nextTurn();
+		}
+	};
 
 	function roopUnits(units, functions){
 		Object.keys(units).forEach(function(unitsKey){
