@@ -1,2 +1,13 @@
 .idea/
 
+jasmine-standalone-2.0.1/MIT.LICENSE
+jasmine-standalone-2.0.1/lib/jasmine-2.0.1/boot.js
+jasmine-standalone-2.0.1/lib/jasmine-2.0.1/console.js
+jasmine-standalone-2.0.1/lib/jasmine-2.0.1/jasmine-html.js
+jasmine-standalone-2.0.1/lib/jasmine-2.0.1/jasmine.css
+jasmine-standalone-2.0.1/lib/jasmine-2.0.1/jasmine.js
+jasmine-standalone-2.0.1/lib/jasmine-2.0.1/jasmine_favicon.png
+jasmine-standalone-2.0.1/spec/PlayerSpec.js
+jasmine-standalone-2.0.1/spec/SpecHelper.js
+jasmine-standalone-2.0.1/src/Player.js
+jasmine-standalone-2.0.1/src/Song.js

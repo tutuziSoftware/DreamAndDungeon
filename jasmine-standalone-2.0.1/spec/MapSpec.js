@@ -34,4 +34,9 @@ describe('Map', function() {
 			expect(test.y).toBe(3);
 		});
 	});
+
+	describe('getOutOfRangeUnitsを実装する', function(){
+		//getOutOfRangeUnitsは他のユニットから6マス以上離れているユニットを返します。
+		//そのユニットが敵か味方の判断はMapの範疇では「ありません」
+	});
 });
