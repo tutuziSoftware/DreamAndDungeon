@@ -33,30 +33,34 @@ Map.prototype = {
 		this._inout.set(this._point, 'maps');
 	},
 	moveUnit:function(unitId, move){
-		var pointKey = this._units[unitId];
+		var point = this.getPoint(unitId);
 
-		remove.call(this, unitId, pointKey);
-		_move.call(this, unitId, pointKey, move);
+		remove.call(this, unitId);
+		_move.call(this, unitId, point, move);
 
-		function remove(unitId, pointKey){
+		function remove(unitId){
+			var pointKey = this._units[unitId];
 			delete this._units[unitId];
 			delete this._point[pointKey];
 		}
 
-		function _move(unitId, pointKey, move){
-			var point = pointKey.split(',');
-
-			var oldX = +(point[0]);
-			var oldY = +(point[1]);
-
-			var x = oldX + move.x;
-			var y = oldY + move.y;
+		function _move(unitId, oldPoint, move){
+			var x = oldPoint.x + move.x;
+			var y = oldPoint.y + move.y;
 
 			this.add(x, y, unitId);
 		}
 	},
 	getPoint:function(unitId){
-		return this._units[unitId];
+		var point = this._units[unitId].split(',');
+
+		return {
+			x:+point[0],
+			y:+point[1],
+			toString:function(){
+				return this.x + ',' + this.y;
+			}
+		};
 	},
 	_isUnitExist:function(x, y){
 		return !!this._point[this._getPointKey(x,y)];

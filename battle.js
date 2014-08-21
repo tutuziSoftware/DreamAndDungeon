@@ -89,6 +89,9 @@ DAD.controller('charactersController', function($scope){
 	 */
 	$scope.moveTo = function(move){
 		map.moveUnit($scope.actionQueue.toTurn().id, move);
+
+		//TODO ここににげる判定を入れる
+
 		myTurnUnitActionCount++;
 
 		if(myTurnUnitActionCount == 2){
