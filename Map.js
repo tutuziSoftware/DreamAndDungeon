@@ -62,6 +62,12 @@ Map.prototype = {
 			}
 		};
 	},
+	getOutOfRangeUnits:function(unitIds){
+		return [];
+	},
+	_checkOutOfUnit:function(){
+
+	},
 	_isUnitExist:function(x, y){
 		return !!this._point[this._getPointKey(x,y)];
 	},

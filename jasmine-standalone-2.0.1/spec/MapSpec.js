@@ -1,14 +1,14 @@
 describe('Map', function() {
+	var map;
+
+	beforeEach(function(){
+		delete localStorage['maps'];
+
+		map = new Map;
+		map.add(3, 4, 'test');
+	});
+
 	describe('getPointの戻り値をstringからobjectに変更する', function(){
-		var map;
-
-		beforeEach(function(){
-			delete localStorage['maps'];
-
-			map = new Map;
-			map.add(3, 4, 'test');
-		});
-
 		it('getPoint', function(){
 			var point = map.getPoint('test');
 
@@ -38,5 +38,13 @@ describe('Map', function() {
 	describe('getOutOfRangeUnitsを実装する', function(){
 		//getOutOfRangeUnitsは他のユニットから6マス以上離れているユニットを返します。
 		//そのユニットが敵か味方の判断はMapの範疇では「ありません」
+
+		it('最初から6マス離れている場合', function(){
+			map.add(3, 10, 'outofunit');
+			var units = map.getOutOfRangeUnits(['test']);
+
+			expect(units.length).toBe(1);
+			expect(units[0]).toBe('outofunit');
+		});
 	});
 });
