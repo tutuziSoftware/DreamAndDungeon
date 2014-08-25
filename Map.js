@@ -62,17 +62,28 @@ Map.prototype = {
 			}
 		};
 	},
+	/**
+	 * 6マス以上離れているユニットを返します。
+	 * @param unitIds ユニットIDの配列。この配列に入っているユニットID全てから6マス以上離れているユニットを探索します。
+	 * @return {Array} unitIds達から6マス以上離れているユニットのIDを返します。
+	 *
+	 * やった！　実装の仕方が思いつかなくて困ってたから、すんなり実装出来てよかった！
+	 * でもこのメソッドを呼ぶたびに線形探索を行っているのはなんとも非効率的だ……。
+	 */
 	getOutOfRangeUnits:function(unitIds){
 		var self = this;
 		var mapUnitIds = Object.keys(this._units);
 
+		//unitIdsから6マス離れているユニットを返します。
 		var outOfUnitIds = mapUnitIds.filter(function(outOfUnitId){
+			//自分自身を除外します。
 			var isTeamUnit = unitIds.some(function(unitId){
 				return unitId == outOfUnitId;
 			});
 
 			if(isTeamUnit) return false;
 
+			//6マス以上離れている場合、trueを返します。
 			return unitIds.every(function(unitId){
 				var unitPoint = self.getPoint(unitId);
 				var outOfRangeUnit = self.getPoint(outOfUnitId);
