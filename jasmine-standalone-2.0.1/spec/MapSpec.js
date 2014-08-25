@@ -45,6 +45,11 @@ describe('Map', function() {
 
 			expect(units.length).toBe(1);
 			expect(units[0]).toBe('outofunit');
+
+			var testOnly = map.getOutOfRangeUnits(['outofunit']);
+
+			expect(testOnly.length).toBe(1);
+			expect(testOnly[0]).toBe('test');
 		});
 	});
 });

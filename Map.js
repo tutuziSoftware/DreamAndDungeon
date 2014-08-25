@@ -63,10 +63,26 @@ Map.prototype = {
 		};
 	},
 	getOutOfRangeUnits:function(unitIds){
-		return [];
-	},
-	_checkOutOfUnit:function(){
+		var self = this;
+		var mapUnitIds = Object.keys(this._units);
 
+		var outOfUnitIds = mapUnitIds.filter(function(outOfUnitId){
+			var isTeamUnit = unitIds.some(function(unitId){
+				return unitId == outOfUnitId;
+			});
+
+			if(isTeamUnit) return false;
+
+			return unitIds.every(function(unitId){
+				var unitPoint = self.getPoint(unitId);
+				var outOfRangeUnit = self.getPoint(outOfUnitId);
+
+				return Math.abs(unitPoint.x - outOfRangeUnit.x) < 6 &&
+						Math.abs(unitPoint.y - outOfRangeUnit.y);
+			});
+		});
+
+		return outOfUnitIds;
 	},
 	_isUnitExist:function(x, y){
 		return !!this._point[this._getPointKey(x,y)];
