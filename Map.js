@@ -18,6 +18,13 @@ Map.TOP = {x:0,y:-1};
 Map.RIGHT = {x:1,y:0};
 Map.BOTTOM = {x:0,y:1};
 Map.LEFT = {x:-1,y:0};
+Map.NullPoint = {
+	x:NaN,
+	y:NaN,
+	toString:function(){
+		return 'ここはどこ、わたしはだれ';
+	}
+};
 
 Map.prototype = {
 	add:function(x, y, unitId){
@@ -52,15 +59,19 @@ Map.prototype = {
 		}
 	},
 	getPoint:function(unitId){
-		var point = this._units[unitId].split(',');
+		if(unitId in this._units) {
+			var point = this._units[unitId].split(',');
 
-		return {
-			x:+point[0],
-			y:+point[1],
-			toString:function(){
-				return this.x + ',' + this.y;
-			}
-		};
+			return {
+				x:+point[0],
+				y:+point[1],
+				toString:function(){
+					return this.x + ',' + this.y;
+				}
+			};
+		}else{
+			return Map.NullPoint;
+		}
 	},
 	/**
 	 * 6マス以上離れているユニットを返します。

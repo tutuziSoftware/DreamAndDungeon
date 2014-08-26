@@ -35,6 +35,15 @@ describe('Map', function() {
 		});
 	});
 
+	describe('バグ：getPointにMapに存在しない値を渡した場合', function(){
+		it('nullオブジェクトを返す', function(){
+			var point = map.getPoint('not_exist');
+			expect(point.x).toBeNaN();
+			expect(point.y).toBeNaN();
+			expect(point.toString()).toBe('ここはどこ、わたしはだれ');
+		});
+	});
+
 	describe('getOutOfRangeUnitsを実装する', function(){
 		//getOutOfRangeUnitsは他のユニットから6マス以上離れているユニットを返します。
 		//そのユニットが敵か味方の判断はMapの範疇では「ありません」
@@ -50,6 +59,22 @@ describe('Map', function() {
 
 			expect(testOnly.length).toBe(1);
 			expect(testOnly[0]).toBe('test');
+		});
+	});
+
+	describe('バグ：位置が存在しないユニットがgetOutOfRangeUnitsで問い合わせを行った場合', function(){
+		var map;
+
+		beforeEach(function(){
+			delete localStorage['maps'];
+
+			map = new Map;
+		});
+
+		it('空の配列を返す', function(){
+			var ids = map.getOutOfRangeUnits(['test']);
+
+			expect(ids.length).toBe(0);
 		});
 	});
 });
