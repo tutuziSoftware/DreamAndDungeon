@@ -18,6 +18,13 @@ Map.TOP = {x:0,y:-1};
 Map.RIGHT = {x:1,y:0};
 Map.BOTTOM = {x:0,y:1};
 Map.LEFT = {x:-1,y:0};
+Map.NullPoint = {
+	x:NaN,
+	y:NaN,
+	toString:function(){
+		return 'ここはどこ、わたしはだれ';
+	}
+};
 
 Map.prototype = {
 	add:function(x, y, unitId){
@@ -33,30 +40,71 @@ Map.prototype = {
 		this._inout.set(this._point, 'maps');
 	},
 	moveUnit:function(unitId, move){
-		var pointKey = this._units[unitId];
+		var point = this.getPoint(unitId);
 
-		remove.call(this, unitId, pointKey);
-		_move.call(this, unitId, pointKey, move);
+		remove.call(this, unitId);
+		_move.call(this, unitId, point, move);
 
-		function remove(unitId, pointKey){
+		function remove(unitId){
+			var pointKey = this._units[unitId];
 			delete this._units[unitId];
 			delete this._point[pointKey];
 		}
 
-		function _move(unitId, pointKey, move){
-			var point = pointKey.split(',');
-
-			var oldX = +(point[0]);
-			var oldY = +(point[1]);
-
-			var x = oldX + move.x;
-			var y = oldY + move.y;
+		function _move(unitId, oldPoint, move){
+			var x = oldPoint.x + move.x;
+			var y = oldPoint.y + move.y;
 
 			this.add(x, y, unitId);
 		}
 	},
 	getPoint:function(unitId){
-		return this._units[unitId];
+		if(unitId in this._units) {
+			var point = this._units[unitId].split(',');
+
+			return {
+				x:+point[0],
+				y:+point[1],
+				toString:function(){
+					return this.x + ',' + this.y;
+				}
+			};
+		}else{
+			return Map.NullPoint;
+		}
+	},
+	/**
+	 * 6マス以上離れているユニットを返します。
+	 * @param unitIds ユニットIDの配列。この配列に入っているユニットID全てから6マス以上離れているユニットを探索します。
+	 * @return {Array} unitIds達から6マス以上離れているユニットのIDを返します。
+	 *
+	 * やった！　実装の仕方が思いつかなくて困ってたから、すんなり実装出来てよかった！
+	 * でもこのメソッドを呼ぶたびに線形探索を行っているのはなんとも非効率的だ……。
+	 */
+	getOutOfRangeUnits:function(unitIds){
+		var self = this;
+		var mapUnitIds = Object.keys(this._units);
+
+		//unitIdsから6マス離れているユニットを返します。
+		var outOfUnitIds = mapUnitIds.filter(function(outOfUnitId){
+			//自分自身を除外します。
+			var isTeamUnit = unitIds.some(function(unitId){
+				return unitId == outOfUnitId;
+			});
+
+			if(isTeamUnit) return false;
+
+			//6マス以上離れている場合、trueを返します。
+			return unitIds.every(function(unitId){
+				var unitPoint = self.getPoint(unitId);
+				var outOfRangeUnit = self.getPoint(outOfUnitId);
+
+				return Math.abs(unitPoint.x - outOfRangeUnit.x) < 6 &&
+						Math.abs(unitPoint.y - outOfRangeUnit.y);
+			});
+		});
+
+		return outOfUnitIds;
 	},
 	_isUnitExist:function(x, y){
 		return !!this._point[this._getPointKey(x,y)];
