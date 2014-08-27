@@ -10,6 +10,8 @@ DAD.controller('charactersController', function($scope){
 	}
 
 	var inout = new InOut();
+	var map = new Map;
+
 	//必要なデータ構造
 	$scope.actionQueue = new ActionQueue();
 
@@ -19,7 +21,8 @@ DAD.controller('charactersController', function($scope){
 			roopUnits(units, [
 				statusToStatusObject,
 				addActionQueue,
-				addCountAction]
+				addCountAction,
+				initMap]
 			);
 			$scope[unitsKey] = units;
 		}, unitsKey);
@@ -66,9 +69,9 @@ DAD.controller('charactersController', function($scope){
 			$scope.log.push($scope.turnUnit.name + "のターン！")
 			$scope.nextTurn($scope.turnUnit);
 		}
-	}
+	};
 
-	var map = new Map;
+
 	['TOP','RIGHT','BOTTOM','LEFT'].forEach(function(key){
 		/**
 		 * ユニットがどこに移動するかを示す定数です。
@@ -91,6 +94,8 @@ DAD.controller('charactersController', function($scope){
 		map.moveUnit($scope.actionQueue.toTurn().id, move);
 
 		//TODO ここににげる判定を入れる
+		var outOfEnemy = map.getOutOfRangeUnits($scope.characters);
+		console.log(outOfEnemy);
 
 		myTurnUnitActionCount++;
 
@@ -126,6 +131,14 @@ DAD.controller('charactersController', function($scope){
 	function addCountAction(unit){
 		if(unit.countAction === void 0){
 			unit.countAction = 0;
+		}
+	}
+
+	function initMap(unit){
+		var point = map.getPoint(unit.id);
+
+		if(point === Map.NullPoint){
+			map.add(5, 5, unit.id);
 		}
 	}
 });
