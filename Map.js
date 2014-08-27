@@ -30,6 +30,7 @@ Map.prototype = {
 	add:function(x, y, unitId){
 		if(this._isUnitExist(x, y)){
 			this.add(x + 1, y);
+			return;
 		}
 
 		var point = this._getPointKey(x, y);
@@ -107,7 +108,7 @@ Map.prototype = {
 		return outOfUnitIds;
 	},
 	_isUnitExist:function(x, y){
-		return !!this._point[this._getPointKey(x,y)];
+		return this._getPointKey(x,y) in this._point;
 	},
 	_getPointKey:function(x, y){
 		return x + ',' + y;

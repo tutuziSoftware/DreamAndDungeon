@@ -77,4 +77,15 @@ describe('Map', function() {
 			expect(ids.length).toBe(0);
 		});
 	});
+
+	describe('バグ：add時に同じ位置に違うユニットが登録出来てしまう不具合', function(){
+		it('検証', function(){
+			map.add(3, 4, 'test2');
+
+			var testPoint = map.getPoint('test');
+			var test2Point = map.getPoint('test2');
+
+			expect(testPoint.x).not.toBe(test2Point.x);
+		});
+	});
 });
