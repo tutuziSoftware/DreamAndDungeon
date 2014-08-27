@@ -97,7 +97,7 @@ DAD.controller('charactersController', function($scope){
 		map.moveUnit($scope.actionQueue.toTurn().id, move);
 
 		//TODO ここににげる判定を入れる
-		var outOfEnemy = map.getOutOfRangeUnits($scope.characters);
+		var outOfEnemy = map.getOutOfRangeUnits(Object.keys($scope.characters));
 		console.log(outOfEnemy);
 
 		myTurnUnitActionCount++;
