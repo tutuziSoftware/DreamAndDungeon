@@ -84,7 +84,10 @@ DAD.controller('charactersController', function($scope){
 	 * ユニットの位置を返すメソッドです。
 	 * @type {*}
 	 */
-	$scope.getPoint = map.getPoint.bind(map);
+	$scope.getPoint = function(unitId){
+		var point = map.getPoint(unitId);
+		return point.toString();
+	};
 
 	/**
 	 * ユニットの移動を行う為のメソッドです。
