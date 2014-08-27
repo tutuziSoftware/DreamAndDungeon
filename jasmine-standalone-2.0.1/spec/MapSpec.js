@@ -88,4 +88,18 @@ describe('Map', function() {
 			expect(testPoint.x).not.toBe(test2Point.x);
 		});
 	});
+
+	describe('バグ：add時にlocalStorageに値が保存されない', function(){
+		it('原因：add内部でaddを再帰呼び出しした時、unitIdが渡されていなかった', function(){
+			map.add(3, 4, 'test2');
+
+			var newMap = new Map;
+
+			expect(newMap.getPoint('test')).not.toBeNull();
+			expect(newMap.getPoint('test2')).not.toBeNull();
+
+			expect('3,4' in JSON.parse(localStorage['maps'])).toBe(true);
+			expect('4,4' in JSON.parse(localStorage['maps'])).toBe(true);
+		});
+	});
 });

@@ -29,7 +29,7 @@ Map.NullPoint = {
 Map.prototype = {
 	add:function(x, y, unitId){
 		if(this._isUnitExist(x, y)){
-			this.add(x + 1, y);
+			this.add(x + 1, y, unitId);
 			return;
 		}
 
