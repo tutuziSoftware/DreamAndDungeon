@@ -44,7 +44,7 @@ describe('Map', function() {
 		});
 	});
 
-	describe('getOutOfRangeUnitsを実装する', function(){
+	describe('getOutOfRangeUnitsの実装', function(){
 		//getOutOfRangeUnitsは他のユニットから6マス以上離れているユニットを返します。
 		//そのユニットが敵か味方の判断はMapの範疇では「ありません」
 
@@ -59,6 +59,14 @@ describe('Map', function() {
 
 			expect(testOnly.length).toBe(1);
 			expect(testOnly[0]).toBe('test');
+		});
+
+		it('バグ：5マス内でもレンジ外扱いになる', function(){
+			map.add(3, 5, 'test2');
+			var units = map.getOutOfRangeUnits(['test']);
+
+			expect(units).toArray();
+			expect(units.length).toBe(0);
 		});
 	});
 

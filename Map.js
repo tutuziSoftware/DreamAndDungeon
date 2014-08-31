@@ -96,13 +96,16 @@ Map.prototype = {
 			if(isTeamUnit) return false;
 
 			//6マス以上離れている場合、trueを返します。
-			return unitIds.every(function(unitId){
+			var isOutOf = unitIds.every(function(unitId){
 				var unitPoint = self.getPoint(unitId);
 				var outOfRangeUnit = self.getPoint(outOfUnitId);
 
-				return Math.abs(unitPoint.x - outOfRangeUnit.x) < 6 &&
-						Math.abs(unitPoint.y - outOfRangeUnit.y);
+				//TODO ここの値がおかしくね？
+				return Math.abs(unitPoint.x - outOfRangeUnit.x) > 6 ||
+						Math.abs(unitPoint.y - outOfRangeUnit.y) > 6;
 			});
+
+			return isOutOf;
 		});
 
 		return outOfUnitIds;
