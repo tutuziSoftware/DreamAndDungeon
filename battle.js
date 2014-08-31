@@ -96,9 +96,10 @@ DAD.controller('charactersController', function($scope){
 	$scope.moveTo = function(move){
 		map.moveUnit($scope.actionQueue.toTurn().id, move);
 
-		//TODO ここににげる判定を入れる
 		var outOfEnemy = map.getOutOfRangeUnits(Object.keys($scope.characters));
-		console.log(outOfEnemy);
+		outOfEnemy.forEach(function(enemyId){
+			delete $scope.enemys[enemyId];
+		});
 
 		myTurnUnitActionCount++;
 
