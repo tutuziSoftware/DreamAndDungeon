@@ -165,29 +165,7 @@ DAD.controller('charactersController', function($scope){
  */
 DAD.controller('actionsManipulator', function($scope){
 	$scope.selectAction = '';
-	$scope.actions = [
-		{
-			name:'slap',
-			japanese:'なぐる'
-		},
-		{
-			name:'attack',
-			japanese:'こうげき'
-		},
-		{
-			name:'block',
-			japanese:'ぼうぎょ'
-		},
-		{
-			name:'move',
-			japanese:'いどう'
-		},
-		{
-			name:'turnEnd',
-			japanese:'こうどうしゅうりょう'
-		}
-	];
-
+	
 	/**
 	 * 行動の詳細へ移動します。
 	 * @param actionName

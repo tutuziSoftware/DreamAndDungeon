@@ -16,10 +16,11 @@
 					<div>ST:{{character.status.toString()}}</div>
 					<div>PO:{{getPoint(character.id)}}</div>
 					<div ng-controller='actionsManipulator' ng-show='character == turnUnit'>
+						<button ng-show='selectAction == ""'>こうげき</button>
 						<button
-							ng-repeat='action in actions'
 							ng-show='selectAction == ""'
-							ng-click='nextAction(action.name)'>{{action.japanese}}</button>
+							ng-click='nextAction("move")'>いどう</button>
+						<button ng-show='selectAction == ""'>こうどうしゅうりょう</button>
 						<div ng-show='selectAction == "move"'>
 							<button ng-click='moveTo(TOP);clearSelectAction()'>
 								うえ
@@ -42,6 +43,7 @@
 					<div>NA:{{enemy.name}}</div>
 					<div>ST:{{enemy.status.toString()}}</div>
 					<div>PO:{{getPoint(enemy.id)}}</div>
+					<button></button>
 				</li>
 			</ul>
 			<dl>
