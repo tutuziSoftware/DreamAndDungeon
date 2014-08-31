@@ -16,6 +16,7 @@ DAD.controller('charactersController', function($scope){
 	$scope.actionQueue = new ActionQueue();
 
 	//ユニット登録
+	//データは{id:{ユニットの情報}}という感じで保存されている。
 	['characters', 'enemys'].forEach(function(unitsKey){
 		inout.get(function(units){
 			roopUnits(units, [
@@ -96,10 +97,12 @@ DAD.controller('charactersController', function($scope){
 	$scope.moveTo = function(move){
 		map.moveUnit($scope.actionQueue.toTurn().id, move);
 
+		//↓行動「にげる」の判定です。
 		var outOfEnemy = map.getOutOfRangeUnits(Object.keys($scope.characters));
 		outOfEnemy.forEach(function(enemyId){
 			delete $scope.enemys[enemyId];
 		});
+		//↑行動「にげる」の判定です。
 
 		myTurnUnitActionCount++;
 
