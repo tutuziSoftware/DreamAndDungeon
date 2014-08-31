@@ -65,7 +65,6 @@ describe('Map', function() {
 			map.add(3, 5, 'test2');
 			var units = map.getOutOfRangeUnits(['test']);
 
-			expect(units).toArray();
 			expect(units.length).toBe(0);
 		});
 	});

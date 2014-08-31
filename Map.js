@@ -100,9 +100,8 @@ Map.prototype = {
 				var unitPoint = self.getPoint(unitId);
 				var outOfRangeUnit = self.getPoint(outOfUnitId);
 
-				//TODO ここの値がおかしくね？
-				return Math.abs(unitPoint.x - outOfRangeUnit.x) > 6 ||
-						Math.abs(unitPoint.y - outOfRangeUnit.y) > 6;
+				return Math.abs(unitPoint.x - outOfRangeUnit.x) >= 6 ||
+						Math.abs(unitPoint.y - outOfRangeUnit.y) >= 6;
 			});
 
 			return isOutOf;
