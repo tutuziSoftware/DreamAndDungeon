@@ -90,6 +90,26 @@ DAD.controller('charactersController', function($scope){
 		return point.toString();
 	};
 
+	var attackCharacterId;
+
+	$scope.setAttacker = function(characterId){
+		attackCharacterId = characterId;
+		$scope.isAttackMode = true;
+	};
+
+	$scope.attack = function(blockCharacterId){
+		var attacker = $scope.characters[attackCharacterId];
+		var blocker = $scope.enemys[blockCharacterId];
+
+		if(attacker.equipment === void 0 || attacker.equipment.length === 0){
+			//TODO 装備がない場合、「いしをなげる」「なぐる」を入れる
+		}
+
+		//TODO 装備に関するデータ構造の推敲が必要
+
+		$scope.isAttackMode = false;
+	}
+
 	/**
 	 * ユニットの移動を行う為のメソッドです。
 	 * @type {*}
@@ -165,7 +185,7 @@ DAD.controller('charactersController', function($scope){
  */
 DAD.controller('actionsManipulator', function($scope){
 	$scope.selectAction = '';
-	
+
 	/**
 	 * 行動の詳細へ移動します。
 	 * @param actionName

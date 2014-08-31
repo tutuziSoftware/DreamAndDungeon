@@ -16,7 +16,9 @@
 					<div>ST:{{character.status.toString()}}</div>
 					<div>PO:{{getPoint(character.id)}}</div>
 					<div ng-controller='actionsManipulator' ng-show='character == turnUnit'>
-						<button ng-show='selectAction == ""'>こうげき</button>
+						<button
+							ng-show='selectAction == ""'
+							ng-click='setAttacker(character.id)'>こうげき</button>
 						<button
 							ng-show='selectAction == ""'
 							ng-click='nextAction("move")'>いどう</button>
@@ -43,7 +45,9 @@
 					<div>NA:{{enemy.name}}</div>
 					<div>ST:{{enemy.status.toString()}}</div>
 					<div>PO:{{getPoint(enemy.id)}}</div>
-					<button></button>
+					<button
+						ng-show='isAttackMode'
+						ng-click='attack(enemy.id)'>こうげきする</button>
 				</li>
 			</ul>
 			<dl>
