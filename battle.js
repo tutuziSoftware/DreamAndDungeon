@@ -99,6 +99,15 @@ DAD.controller('charactersController', function($scope){
 
 		//↓行動「にげる」の判定です。
 		var outOfEnemy = map.getOutOfRangeUnits(Object.keys($scope.characters));
+		//不要なIDが存在した場合、無視する
+		outOfEnemy = outOfEnemy.filter(function(enemyId){
+			return enemyId in $scope.enemys;
+		});
+		//ログに記録
+		outOfEnemy.forEach(function(enemyId){
+			$scope.log.push($scope.enemys[enemyId].name + 'から逃げ切った！');
+		});
+		//削除
 		outOfEnemy.forEach(function(enemyId){
 			delete $scope.enemys[enemyId];
 		});
