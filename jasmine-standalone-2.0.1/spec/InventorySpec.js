@@ -2,6 +2,7 @@ describe('Inventory', function(){
 	var inventory;
 
 	beforeEach(function(){
+		delete localStorage['inventory'];
 		inventory = new Inventory('id');
 	});
 
@@ -11,10 +12,11 @@ describe('Inventory', function(){
 			type:Inventory.DISPOSABLE
 		});
 
-		var items = inventory.get();
-		expect(items.length).toBe(1);
-		expect(items[0].name).toBe('やくそう');
-		expect(items[0].type).toBe(Inventory.DISPOSABLE);
+		inventory.get(function(items){
+			expect(items.length).toBe(1);
+			expect(items[0].name).toBe('やくそう');
+			expect(items[0].type).toBe(Inventory.DISPOSABLE);
+		});
 	});
 
 	describe('インベントリを増やしたテスト', function(){
