@@ -9,13 +9,14 @@ describe('Inventory', function(){
 	it('インベントリの末尾への格納', function(){
 		inventory.push({
 			name:'やくそう',
-			type:Inventory.DISPOSABLE
+			type:Inventory.ITEM_TYPES.DISPOSABLE
 		});
 
+		//TODO callbackでの取得はやめる
 		inventory.get(function(items){
 			expect(items.length).toBe(1);
 			expect(items[0].name).toBe('やくそう');
-			expect(items[0].type).toBe(Inventory.DISPOSABLE);
+			expect(items[0].type).toBe(Inventory.ITEM_TYPES.DISPOSABLE);
 		});
 	});
 
@@ -23,7 +24,7 @@ describe('Inventory', function(){
 		beforeEach(function(){
 			inventory.push({
 				name:'盾',
-				type:Inventory.ARMS
+				type:Inventory.ITEM_TYPES.ARMS
 			});
 		});
 
@@ -32,7 +33,7 @@ describe('Inventory', function(){
 
 			expect(shield.length).toBe(1);
 			expect(shield[0].name).toBe('盾');
-			expect(shield[0].type).toBe(Inventory.ARMS);
+			expect(shield[0].type).toBe(Inventory.ITEM_TYPES.ARMS);
 		});
 
 		it('手装備は二つまで', function(){

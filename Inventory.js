@@ -2,15 +2,32 @@ var Inventory = function(characterId){
 	this._characterId = characterId;
 };
 
-/**
- * 使い捨てアイテムを示す定数です。
- * @type {Object}
- */
-Inventory.DISPOSABLE = {
-	toString:function(){
-		return 'DISPOSABLE';
+
+Inventory.ITEM_TYPES = {
+	/**
+	 * 使い捨てアイテムを示す定数です。
+	 * @type {Object}
+	 */
+	DISPOSABLE:{
+		toString:function(){
+			return 'DISPOSABLE';
+		}
+	},
+	/**
+	 * 手持ち装備を示す定数です。
+	 * @type {Object}
+	 */
+	ARMS:{
+		toString:function(){
+			return 'ARMS';
+		}
 	}
 };
+
+/**
+ * @type {Object} 手持ち装備を示す定数です。
+ */
+Inventory.HAND = {};
 
 Inventory.prototype = {
 	push:function(item){
@@ -22,6 +39,7 @@ Inventory.prototype = {
 			self._setItems(items);
 		});
 	},
+	//TODO callbackでの取得はやめる
 	get:function(callback){
 		//TODO 複数のcharacterIdを使用する考慮が足りていない
 
@@ -30,15 +48,24 @@ Inventory.prototype = {
 			inout.set([], 'inventory');
 		}, 'inventory');
 		inout.get(function(items){
-			var types = {'DISPOSABLE':Inventory.DISPOSABLE};
-
 			var items = items.map(function(item){
-				item.type = types[item.type];
+				item.type = Inventory.ITEM_TYPES[item.type];
 				return item;
 			});
 
 			callback(items);
 		}, 'inventory');
+	},
+	getArms:function(){
+		var arms;
+
+		this.get(function(items){
+			arms = items.filter(function(item){
+				return item.type === Inventory.ITEM_TYPES.ARMS;
+			});
+		});
+
+		return arms;
 	},
 	_setItems:function(items){
 		var inout = new InOut();
