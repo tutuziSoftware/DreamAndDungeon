@@ -67,6 +67,18 @@ Inventory.prototype = {
 
 		return arms;
 	},
+	move:function(nowPoint, newPoint){
+		var self = this;
+
+		this.get(function(items){
+			var moveItem = items[nowPoint];
+			var item = items[newPoint];
+			items.splice(newPoint, 1, moveItem);
+			items.splice(nowPoint, 1, item);
+
+			self._setItems(items);
+		});
+	},
 	_setItems:function(items){
 		var inout = new InOut();
 		inout.init(function(){

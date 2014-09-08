@@ -56,25 +56,38 @@ describe('Inventory', function(){
 		});
 
 		it('インベントリの順番を変更出来るようにする', function(){
+			inventory.push({
+				name:'剣',
+				type:Inventory.ITEM_TYPES.ARMS
+			});
+			inventory.push({
+				name:'すごい剣',
+				type:Inventory.ITEM_TYPES.ARMS
+			});
+			inventory.push({
+				name:'やくそう',
+				type:Inventory.ITEM_TYPES.DISPOSABLE
+			});
+
 			inventory.move(0, 3);
 
-			var items = inventory.get();
+			var items = inventory.get(function(items){
+				expect(items.length).toBe(4);
+				expect(items[0].name).toBe('やくそう');
+				expect(items[0].type).toBe(Inventory.ITEM_TYPES.DISPOSABLE);
+				expect(items[1].name).toBe('剣');
+				expect(items[1].type).toBe(Inventory.ITEM_TYPES.ARMS);
+				expect(items[2].name).toBe('すごい剣');
+				expect(items[2].type).toBe(Inventory.ITEM_TYPES.ARMS);
+				expect(items[3].name).toBe('盾');
+				expect(items[3].type).toBe(Inventory.ITEM_TYPES.ARMS);
 
-			expect(items.length).toBe(4);
-			expect(shields[0].name).toBe('すごい剣');
-			expect(shields[0].type).toBe(Inventory.ARMS);
-			expect(shields[1].name).toBe('盾');
-			expect(shields[1].type).toBe(Inventory.ARMS);
-			expect(shields[2].name).toBe('剣');
-			expect(shields[2].type).toBe(Inventory.ARMS);
-			expect(shields[2].name).toBe('やくそう');
-			expect(shields[2].type).toBe(Inventory.DISPOSABLE);
-
-			var arms = inventory.getArms(Inventory.HAND);
-			expect(arms[0].name).toBe('すごい剣');
-			expect(arms[0].type).toBe(Inventory.ARMS);
-			expect(arms[1].name).toBe('盾');
-			expect(arms[1].type).toBe(Inventory.ARMS);
+				var arms = inventory.getArms(Inventory.HAND);
+				expect(arms[0].name).toBe('剣');
+				expect(arms[0].type).toBe(Inventory.ITEM_TYPES.ARMS);
+				expect(arms[1].name).toBe('すごい剣');
+				expect(arms[1].type).toBe(Inventory.ITEM_TYPES.ARMS);
+			});
 		});
 	});
 });
