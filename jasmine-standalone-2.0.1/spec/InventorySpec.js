@@ -50,9 +50,9 @@ describe('Inventory', function(){
 
 			expect(shields.length).toBe(2);
 			expect(shields[0].name).toBe('盾');
-			expect(shields[0].type).toBe(Inventory.ARMS);
+			expect(shields[0].type).toBe(Inventory.ITEM_TYPES.ARMS);
 			expect(shields[1].name).toBe('剣');
-			expect(shields[1].type).toBe(Inventory.ARMS);
+			expect(shields[1].type).toBe(Inventory.ITEM_TYPES.ARMS);
 		});
 
 		it('インベントリの順番を変更出来るようにする', function(){

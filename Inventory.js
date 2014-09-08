@@ -62,7 +62,7 @@ Inventory.prototype = {
 		this.get(function(items){
 			arms = items.filter(function(item){
 				return item.type === Inventory.ITEM_TYPES.ARMS;
-			});
+			}).slice(0,2);
 		});
 
 		return arms;
