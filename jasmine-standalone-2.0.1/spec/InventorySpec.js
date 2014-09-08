@@ -39,11 +39,11 @@ describe('Inventory', function(){
 		it('手装備は二つまで', function(){
 			inventory.push({
 				name:'剣',
-				type:Inventory.ARMS
+				type:Inventory.ITEM_TYPES.ARMS
 			});
 			inventory.push({
 				name:'すごい剣',
-				type:Inventory.ARMS
+				type:Inventory.ITEM_TYPES.ARMS
 			});
 
 			var shields = inventory.getArms(Inventory.HAND);
