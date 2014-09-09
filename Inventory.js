@@ -37,18 +37,19 @@ Inventory.prototype = {
 	},
 	get:function(){
 		//TODO 複数のcharacterIdを使用する考慮が足りていない
+		var self = this;
 		var items = [];
 
 		var inout = new InOut();
 		inout.init(function(){
-			inout.set([], 'inventory');
-		}, 'inventory');
+			inout.set([], self._getKey());
+		}, this._getKey());
 		inout.get(function(savedItems){
 			items = savedItems.map(function(item){
 				item.type = Inventory.ITEM_TYPES[item.type];
 				return item;
 			});
-		}, 'inventory');
+		}, this._getKey());
 
 		return items;
 	},
@@ -69,17 +70,24 @@ Inventory.prototype = {
 
 		this._setItems(items);
 	},
+	clear:function(){
+		var inout = new InOut();
+		inout.set([], this._getKey());
+	},
 	_setItems:function(items){
 		var inout = new InOut();
 		inout.init(function(){
-			inout.set([], 'inventory');
-		}, 'inventory');
+			inout.set([], this._getKey());
+		}, this._getKey());
 
 		items = items.map(function(item){
 			item.type = item.type.toString();
 			return item;
 		});
 
-		inout.set(items, 'inventory');
+		inout.set(items, this._getKey());
+	},
+	_getKey:function(){
+		return 'inventory_' + this._characterId;
 	}
 };

@@ -2,8 +2,8 @@ describe('Inventory', function(){
 	var inventory;
 
 	beforeEach(function(){
-		delete localStorage['inventory'];
 		inventory = new Inventory('id');
+		inventory.clear();
 	});
 
 	it('インベントリの末尾への格納', function(){
@@ -86,6 +86,34 @@ describe('Inventory', function(){
 			expect(arms[0].type).toBe(Inventory.ITEM_TYPES.ARMS);
 			expect(arms[1].name).toBe('すごい剣');
 			expect(arms[1].type).toBe(Inventory.ITEM_TYPES.ARMS);
+		});
+	});
+
+	describe('複数キャラクターIDでのテスト', function(){
+		var id;
+		var id2;
+
+		beforeEach(function(){
+			id = new Inventory('id');
+			id2 = new Inventory('id2');
+		});
+
+		it('複数IDの同時運用', function(){
+			id.push({
+				name:'やくそう',
+				type:Inventory.ITEM_TYPES.DISPOSABLE
+			});
+
+			expect(id.get().length).toBe(1);
+			expect(id2.get().length).toBe(0);
+
+			id2.push({
+				name:'白銀の盾',
+				type:Inventory.ITEM_TYPES.ARMS
+			});
+
+			expect(id.get().length).toBe(1);
+			expect(id2.get().length).toBe(1);
 		});
 	});
 });
