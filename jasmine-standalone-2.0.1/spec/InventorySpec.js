@@ -12,12 +12,10 @@ describe('Inventory', function(){
 			type:Inventory.ITEM_TYPES.DISPOSABLE
 		});
 
-		//TODO callbackでの取得はやめる
-		inventory.get(function(items){
-			expect(items.length).toBe(1);
-			expect(items[0].name).toBe('やくそう');
-			expect(items[0].type).toBe(Inventory.ITEM_TYPES.DISPOSABLE);
-		});
+		var items = inventory.get();
+		expect(items.length).toBe(1);
+		expect(items[0].name).toBe('やくそう');
+		expect(items[0].type).toBe(Inventory.ITEM_TYPES.DISPOSABLE);
 	});
 
 	describe('インベントリを増やしたテスト', function(){
@@ -71,23 +69,23 @@ describe('Inventory', function(){
 
 			inventory.move(0, 3);
 
-			var items = inventory.get(function(items){
-				expect(items.length).toBe(4);
-				expect(items[0].name).toBe('やくそう');
-				expect(items[0].type).toBe(Inventory.ITEM_TYPES.DISPOSABLE);
-				expect(items[1].name).toBe('剣');
-				expect(items[1].type).toBe(Inventory.ITEM_TYPES.ARMS);
-				expect(items[2].name).toBe('すごい剣');
-				expect(items[2].type).toBe(Inventory.ITEM_TYPES.ARMS);
-				expect(items[3].name).toBe('盾');
-				expect(items[3].type).toBe(Inventory.ITEM_TYPES.ARMS);
+			var items = inventory.get();
 
-				var arms = inventory.getArms(Inventory.HAND);
-				expect(arms[0].name).toBe('剣');
-				expect(arms[0].type).toBe(Inventory.ITEM_TYPES.ARMS);
-				expect(arms[1].name).toBe('すごい剣');
-				expect(arms[1].type).toBe(Inventory.ITEM_TYPES.ARMS);
-			});
+			expect(items.length).toBe(4);
+			expect(items[0].name).toBe('やくそう');
+			expect(items[0].type).toBe(Inventory.ITEM_TYPES.DISPOSABLE);
+			expect(items[1].name).toBe('剣');
+			expect(items[1].type).toBe(Inventory.ITEM_TYPES.ARMS);
+			expect(items[2].name).toBe('すごい剣');
+			expect(items[2].type).toBe(Inventory.ITEM_TYPES.ARMS);
+			expect(items[3].name).toBe('盾');
+			expect(items[3].type).toBe(Inventory.ITEM_TYPES.ARMS);
+
+			var arms = inventory.getArms(Inventory.HAND);
+			expect(arms[0].name).toBe('剣');
+			expect(arms[0].type).toBe(Inventory.ITEM_TYPES.ARMS);
+			expect(arms[1].name).toBe('すごい剣');
+			expect(arms[1].type).toBe(Inventory.ITEM_TYPES.ARMS);
 		});
 	});
 });

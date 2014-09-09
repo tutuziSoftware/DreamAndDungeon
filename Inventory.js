@@ -31,53 +31,43 @@ Inventory.HAND = {};
 
 Inventory.prototype = {
 	push:function(item){
-		var self = this;
-		this.get(function(items){
-			if(items == InOut.KEY_NOT_EXIST) return;
-
-			items.push(item);
-			self._setItems(items);
-		});
+		var items = this.get();
+		items.push(item);
+		this._setItems(items);
 	},
-	//TODO callbackでの取得はやめる
-	get:function(callback){
+	get:function(){
 		//TODO 複数のcharacterIdを使用する考慮が足りていない
+		var items = [];
 
 		var inout = new InOut();
 		inout.init(function(){
 			inout.set([], 'inventory');
 		}, 'inventory');
-		inout.get(function(items){
-			var items = items.map(function(item){
+		inout.get(function(savedItems){
+			items = savedItems.map(function(item){
 				item.type = Inventory.ITEM_TYPES[item.type];
 				return item;
 			});
-
-			callback(items);
 		}, 'inventory');
+
+		return items;
 	},
 	getArms:function(){
-		var arms;
-
-		this.get(function(items){
-			arms = items.filter(function(item){
-				return item.type === Inventory.ITEM_TYPES.ARMS;
-			}).slice(0,2);
-		});
+		var items = this.get();
+		var arms = items.filter(function(item){
+			return item.type === Inventory.ITEM_TYPES.ARMS;
+		}).slice(0,2);
 
 		return arms;
 	},
 	move:function(nowPoint, newPoint){
-		var self = this;
+		var items = this.get();
+		var moveItem = items[nowPoint];
+		var item = items[newPoint];
+		items.splice(newPoint, 1, moveItem);
+		items.splice(nowPoint, 1, item);
 
-		this.get(function(items){
-			var moveItem = items[nowPoint];
-			var item = items[newPoint];
-			items.splice(newPoint, 1, moveItem);
-			items.splice(nowPoint, 1, item);
-
-			self._setItems(items);
-		});
+		this._setItems(items);
 	},
 	_setItems:function(items){
 		var inout = new InOut();
