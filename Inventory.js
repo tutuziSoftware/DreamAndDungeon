@@ -24,6 +24,17 @@ Inventory.ITEM_TYPES = {
 	}
 };
 
+Inventory.DEFAULT_ARMS = {
+	'なぐる':{
+		name:'なぐる',
+		type:Inventory.ITEM_TYPES.ARMS
+	},
+	'いしをなげる':{
+		name:'いしをなげる',
+		type:Inventory.ITEM_TYPES.ARMS
+	}
+};
+
 /**
  * @type {Object} 手持ち装備を示す定数です。
  */
@@ -72,16 +83,10 @@ Inventory.prototype = {
 		}).slice(0,2);
 
 		if(arms.length === 0){
-			arms.push({
-				name:'なぐる'
-			});
-			arms.push({
-				name:'いしをなげる'
-			});
+			arms.push(Inventory.DEFAULT_ARMS['なぐる']);
+			arms.push(Inventory.DEFAULT_ARMS['いしをなげる']);
 		}else if(arms.length === 1){
-			arms.push({
-				name:'いしをなげる'
-			});
+			arms.push(Inventory.DEFAULT_ARMS['いしをなげる']);
 		}
 
 		return arms;
