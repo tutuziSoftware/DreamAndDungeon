@@ -119,4 +119,16 @@ describe('Inventory', function(){
 			expect(id2.get().length).toBe(1);
 		});
 	});
+
+	describe('装備がない場合、「なぐる」「いしをなげる」を武器として返す', function(){
+		it('武器0個の場合', function(){
+			var inventory = new Inventory('id');
+			inventory.clear();
+
+			expect(inventory.getArms().length).toBe(2);
+			expect(inventory.getArms()[0].name).toBe('なぐる');
+			expect(inventory.getArms()[1].name).toBe('いしをなげる');
+		});
+		it('武器1個の場合、いしをなげるが残る。いしをなげるは5-1攻撃とする');
+	});
 });

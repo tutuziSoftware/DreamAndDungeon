@@ -59,6 +59,15 @@ Inventory.prototype = {
 			return item.type === Inventory.ITEM_TYPES.ARMS;
 		}).slice(0,2);
 
+		if(arms.length === 0){
+			arms.push({
+				name:'なぐる'
+			});
+			arms.push({
+				name:'いしをなげる'
+			});
+		}
+
 		return arms;
 	},
 	move:function(nowPoint, newPoint){
