@@ -29,7 +29,8 @@ describe('Inventory', function(){
 		it('一番上にある装備を返す', function(){
 			var shield = inventory.getArms(Inventory.HAND);
 
-			expect(shield.length).toBe(1);
+			//装備は「なぐる」「いしをなげる」が存在するため、常に2を返す
+			expect(shield.length).toBe(2);
 			expect(shield[0].name).toBe('盾');
 			expect(shield[0].type).toBe(Inventory.ITEM_TYPES.ARMS);
 		});
@@ -129,6 +130,17 @@ describe('Inventory', function(){
 			expect(inventory.getArms()[0].name).toBe('なぐる');
 			expect(inventory.getArms()[1].name).toBe('いしをなげる');
 		});
-		it('武器1個の場合、いしをなげるが残る。いしをなげるは5-1攻撃とする');
+		it('武器1個の場合、いしをなげるが残る。いしをなげるは5-1攻撃とする', function(){
+			var inventory = new Inventory('id');
+			inventory.clear();
+			inventory.push({
+				name:'盾',
+				type:Inventory.ITEM_TYPES.ARMS
+			});
+
+			expect(inventory.getArms().length).toBe(2);
+			expect(inventory.getArms()[0].name).toBe('盾');
+			expect(inventory.getArms()[1].name).toBe('いしをなげる');
+		});
 	});
 });

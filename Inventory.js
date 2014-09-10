@@ -66,6 +66,10 @@ Inventory.prototype = {
 			arms.push({
 				name:'いしをなげる'
 			});
+		}else if(arms.length === 1){
+			arms.push({
+				name:'いしをなげる'
+			});
 		}
 
 		return arms;
