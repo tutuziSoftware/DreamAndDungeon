@@ -96,6 +96,9 @@ describe('Inventory', function(){
 		beforeEach(function(){
 			id = new Inventory('id');
 			id2 = new Inventory('id2');
+
+			id.clear();
+			id2.clear();
 		});
 
 		it('複数IDの同時運用', function(){
