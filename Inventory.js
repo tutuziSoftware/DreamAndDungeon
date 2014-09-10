@@ -24,19 +24,37 @@ Inventory.ITEM_TYPES = {
 	}
 };
 
+Inventory.DEFAULT_ARMS = {
+	'なぐる':{
+		name:'なぐる',
+		type:Inventory.ITEM_TYPES.ARMS
+	},
+	'いしをなげる':{
+		name:'いしをなげる',
+		type:Inventory.ITEM_TYPES.ARMS
+	}
+};
+
 /**
  * @type {Object} 手持ち装備を示す定数です。
  */
 Inventory.HAND = {};
 
 Inventory.prototype = {
+	/**
+	 * アイテムを追加します。
+	 * @param item
+	 */
 	push:function(item){
 		var items = this.get();
 		items.push(item);
 		this._setItems(items);
 	},
+	/**
+	 * アイテムを全て返します。
+	 * @return {Array}
+	 */
 	get:function(){
-		//TODO 複数のcharacterIdを使用する考慮が足りていない
 		var self = this;
 		var items = [];
 
@@ -53,14 +71,32 @@ Inventory.prototype = {
 
 		return items;
 	},
+	/**
+	 * 武器を返します。
+	 * 武器を持っていない場合、「なぐる」「いしをなげる」が武器として返ります。
+	 * @return {Array}
+	 */
 	getArms:function(){
 		var items = this.get();
 		var arms = items.filter(function(item){
 			return item.type === Inventory.ITEM_TYPES.ARMS;
 		}).slice(0,2);
 
+		if(arms.length === 0){
+			arms.push(Inventory.DEFAULT_ARMS['なぐる']);
+			arms.push(Inventory.DEFAULT_ARMS['いしをなげる']);
+		}else if(arms.length === 1){
+			arms.push(Inventory.DEFAULT_ARMS['いしをなげる']);
+		}
+
 		return arms;
 	},
+	/**
+	 * アイテムを移動させます。
+	 * アイテムの移動はお互いの位置を交換する形式になっています。
+	 * @param nowPoint 移動させたいアイテムの現在位置
+	 * @param newPoint 移動させたい位置
+	 */
 	move:function(nowPoint, newPoint){
 		var items = this.get();
 		var moveItem = items[nowPoint];
@@ -70,10 +106,18 @@ Inventory.prototype = {
 
 		this._setItems(items);
 	},
+	/**
+	 * 現在指定しているIDの装備を全て破棄します。
+	 */
 	clear:function(){
 		var inout = new InOut();
 		inout.set([], this._getKey());
 	},
+	/**
+	 * アイテムを保存します。
+	 * @param items
+	 * @private
+	 */
 	_setItems:function(items){
 		var inout = new InOut();
 		inout.init(function(){
@@ -87,6 +131,11 @@ Inventory.prototype = {
 
 		inout.set(items, this._getKey());
 	},
+	/**
+	 * localStorageのキーを返します。
+	 * @return {String}
+	 * @private
+	 */
 	_getKey:function(){
 		return 'inventory_' + this._characterId;
 	}
