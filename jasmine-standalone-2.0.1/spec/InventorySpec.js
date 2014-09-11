@@ -130,6 +130,7 @@ describe('Inventory', function(){
 		});
 
 		it('武器0個の場合', function(){
+			expect(inventory.get().length).toBe(0);
 			expect(inventory.getArms().length).toBe(2);
 			expect(inventory.getArms()[0].name).toBe('なぐる');
 			expect(inventory.getArms()[1].name).toBe('いしをなげる');
@@ -141,6 +142,7 @@ describe('Inventory', function(){
 				type:Inventory.ITEM_TYPES.ARMS
 			});
 
+			expect(inventory.get().length).toBe(1);
 			expect(inventory.getArms().length).toBe(2);
 			expect(inventory.getArms()[0].name).toBe('盾');
 			expect(inventory.getArms()[1].name).toBe('いしをなげる');
