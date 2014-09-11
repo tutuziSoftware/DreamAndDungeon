@@ -121,18 +121,21 @@ describe('Inventory', function(){
 		});
 	});
 
-	describe('装備がない場合、「なぐる」「いしをなげる」を武器として返す', function(){
-		it('武器0個の場合', function(){
-			var inventory = new Inventory('id');
-			inventory.clear();
+	describe('実装：「なぐる」「いしをなげる」をデフォルト武器として持たせる', function(){
+		var inventory;
 
+		beforeEach(function(){
+			inventory = new Inventory('id');
+			inventory.clear();
+		});
+
+		it('武器0個の場合', function(){
 			expect(inventory.getArms().length).toBe(2);
 			expect(inventory.getArms()[0].name).toBe('なぐる');
 			expect(inventory.getArms()[1].name).toBe('いしをなげる');
 		});
+
 		it('武器1個の場合、いしをなげるが残る。いしをなげるは5-1攻撃とする', function(){
-			var inventory = new Inventory('id');
-			inventory.clear();
 			inventory.push({
 				name:'盾',
 				type:Inventory.ITEM_TYPES.ARMS
@@ -142,5 +145,8 @@ describe('Inventory', function(){
 			expect(inventory.getArms()[0].name).toBe('盾');
 			expect(inventory.getArms()[1].name).toBe('いしをなげる');
 		});
+
+		it('「なぐる」の攻撃範囲、威力設定');
+		it('「いしをなげる」の攻撃範囲、威力設定');
 	});
 });
