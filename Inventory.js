@@ -1,3 +1,8 @@
+/**
+ * このクラスはAttack.jsに依存します。
+ * @param characterId
+ * @constructor
+ */
 var Inventory = function(characterId){
 	this._characterId = characterId;
 };
@@ -27,7 +32,13 @@ Inventory.ITEM_TYPES = {
 Inventory.DEFAULT_ARMS = {
 	'なぐる':{
 		name:'なぐる',
-		type:Inventory.ITEM_TYPES.ARMS
+		type:Inventory.ITEM_TYPES.ARMS,
+		attack:new Attack({
+			power:3,
+			type:Attack.TYPE.SLAP,
+			range:new Attack.Range(1, 1),
+			block: new Block(0, Block.TYPE.NONE)
+		})
 	},
 	'いしをなげる':{
 		name:'いしをなげる',
