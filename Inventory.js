@@ -1,5 +1,5 @@
 /**
- * このクラスはAttack.jsに依存します。
+ * このクラスはAttack.jsとBlock.jsに依存します。
  * @param characterId
  * @constructor
  */
