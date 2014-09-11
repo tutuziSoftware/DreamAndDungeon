@@ -152,10 +152,12 @@ describe('Inventory', function(){
 			var slap = Inventory.DEFAULT_ARMS['なぐる'];
 
 			//アナグマを8回殴れば倒せる程度の攻撃力
-			expect(slap.attack).toBe(3);
-			expect(slap.block).toBe(0);
-			expect(slap.range.min).toBe(1);
-			expect(slap.range.max).toBe(1);
+			expect(slap.attack.power).toBe(3);
+			expect(slap.attack.type).toBe(Attack.TYPE.SLAP);
+			expect(slap.attack.range.min).toBe(1);
+			expect(slap.attack.range.max).toBe(1);
+			expect(slap.block.toughness).toBe(0);
+			expect(slap.block.type).toBe(Block.TYPE.NONE);
 			expect(slap.caption).toBe('探索者の基本攻撃。どんなに非力な探索者でもこれだけは使える');
 		});
 
