@@ -148,7 +148,17 @@ describe('Inventory', function(){
 			expect(inventory.getArms()[1].name).toBe('いしをなげる');
 		});
 
-		it('「なぐる」の攻撃範囲、威力設定');
+		it('「なぐる」の攻撃範囲、威力設定', function(){
+			var slap = Inventory.DEFAULT_ARMS['なぐる'];
+
+			//アナグマを8回殴れば倒せる程度の攻撃力
+			expect(slap.attack).toBe(3);
+			expect(slap.block).toBe(0);
+			expect(slap.range.min).toBe(1);
+			expect(slap.range.max).toBe(1);
+			expect(slap.caption).toBe('探索者の基本攻撃。どんなに非力な探索者でもこれだけは使える');
+		});
+
 		it('「いしをなげる」の攻撃範囲、威力設定');
 	});
 });
