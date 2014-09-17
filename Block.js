@@ -1,4 +1,10 @@
-var Block = function(){};
+var Block = function(args){
+	this.toughness = args.toughness;
+	this.type = args.type;
+};
+
+//TODO 多分ここらへんにダメージを受けた時の軽減関係の処理が入る
+Block.prototype = {};
 
 /**
  * この名前空間に含まれる定数は数値とします。

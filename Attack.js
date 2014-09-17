@@ -5,7 +5,11 @@
  * Time: 8:17
  * To change this template use File | Settings | File Templates.
  */
-var Attack = function(){};
+var Attack = function(args){
+	this.power = args.power;
+	this.type = args.type;
+	this.range = args.range;
+};
 
 /**
  * この名前空間に含まれる定数は数値とします。
@@ -16,4 +20,7 @@ Attack.TYPE = {};
 Attack.TYPE.NONE = 1;
 Attack.TYPE.SLAP = 2;
 
-Attack.Range = function(){};
+Attack.Range = function(min, max){
+	this.min = min;
+	this.max = max;
+};

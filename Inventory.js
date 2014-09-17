@@ -38,7 +38,12 @@ Inventory.DEFAULT_ARMS = {
 			type:Attack.TYPE.SLAP,
 			range:new Attack.Range(1, 1),
 			block: new Block(0, Block.TYPE.NONE)
-		})
+		}),
+		block:new Block({
+			toughness:0,
+			type:Block.TYPE.NONE
+		}),
+		caption:'探索者の基本攻撃。どんなに非力な探索者でもこれだけは使える'
 	},
 	'いしをなげる':{
 		name:'いしをなげる',

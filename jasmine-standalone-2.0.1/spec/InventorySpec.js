@@ -26,6 +26,8 @@ describe('Inventory', function(){
 			});
 		});
 
+		it('メモ用it：装備はレンジごとに返すように修正する {"1":[], "2":[]}');
+
 		it('一番上にある装備を返す', function(){
 			var shield = inventory.getArms(Inventory.HAND);
 
