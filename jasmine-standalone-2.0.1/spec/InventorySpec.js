@@ -26,6 +26,8 @@ describe('Inventory', function(){
 			});
 		});
 
+		it('メモ用it：装備はレンジごとに返すように修正する {"1":[], "2":[]}');
+
 		it('一番上にある装備を返す', function(){
 			var shield = inventory.getArms(Inventory.HAND);
 
@@ -121,26 +123,57 @@ describe('Inventory', function(){
 		});
 	});
 
-	describe('装備がない場合、「なぐる」「いしをなげる」を武器として返す', function(){
-		it('武器0個の場合', function(){
-			var inventory = new Inventory('id');
-			inventory.clear();
+	describe('実装：「なぐる」「いしをなげる」をデフォルト武器として持たせる', function(){
+		var inventory;
 
+		beforeEach(function(){
+			inventory = new Inventory('id');
+			inventory.clear();
+		});
+
+		it('武器0個の場合', function(){
+			expect(inventory.get().length).toBe(0);
 			expect(inventory.getArms().length).toBe(2);
 			expect(inventory.getArms()[0].name).toBe('なぐる');
 			expect(inventory.getArms()[1].name).toBe('いしをなげる');
 		});
+
 		it('武器1個の場合、いしをなげるが残る。いしをなげるは5-1攻撃とする', function(){
-			var inventory = new Inventory('id');
-			inventory.clear();
 			inventory.push({
 				name:'盾',
 				type:Inventory.ITEM_TYPES.ARMS
 			});
 
+			expect(inventory.get().length).toBe(1);
 			expect(inventory.getArms().length).toBe(2);
 			expect(inventory.getArms()[0].name).toBe('盾');
 			expect(inventory.getArms()[1].name).toBe('いしをなげる');
+		});
+
+		it('「なぐる」の攻撃範囲、威力設定', function(){
+			var slap = Inventory.DEFAULT_ARMS['なぐる'];
+
+			//アナグマを9回殴れば倒せる程度の攻撃力
+			expect(slap.attack.power).toBe(3);
+			expect(slap.attack.type).toBe(Attack.TYPE.SLAP);
+			expect(slap.attack.range.min).toBe(1);
+			expect(slap.attack.range.max).toBe(1);
+			expect(slap.block.toughness).toBe(0);
+			expect(slap.block.type).toBe(Block.TYPE.NONE);
+			expect(slap.caption).toBe('探索者の基本攻撃。どんなに非力な探索者でもこれだけは使える');
+		});
+
+		it('「いしをなげる」の攻撃範囲、威力設定', function(){
+			var throwAStone = Inventory.DEFAULT_ARMS['いしをなげる'];
+
+			//アナグマを25回殴れば倒せる程度の攻撃力
+			expect(throwAStone.attack.power).toBe(1);
+			expect(throwAStone.attack.type).toBe(Attack.TYPE.THROW);
+			expect(throwAStone.attack.range.min).toBe(1);
+			expect(throwAStone.attack.range.max).toBe(5);
+			expect(throwAStone.block.toughness).toBe(0);
+			expect(throwAStone.block.type).toBe(Block.TYPE.NONE);
+			expect(throwAStone.caption).toBe('探索者の基本攻撃。どんなに非力な探索者でもこれだけは使える');
 		});
 	});
 });
