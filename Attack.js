@@ -17,9 +17,28 @@ var Attack = function(args){
  * @type {Object}
  */
 Attack.TYPE = {};
+/**
+ * 無属性の攻撃です
+ * @type {Number}
+ */
 Attack.TYPE.NONE = 1;
+/**
+ * 殴る攻撃です。
+ * @type {Number}
+ */
 Attack.TYPE.SLAP = 2;
+/**
+ * 投げる攻撃です。
+ * @type {Number}
+ */
+Attack.TYPE.THROW = 4;
 
+/**
+ * 攻撃の範囲を示す定数です。
+ * @param min
+ * @param max
+ * @constructor
+ */
 Attack.Range = function(min, max){
 	this.min = min;
 	this.max = max;
