@@ -36,8 +36,7 @@ Inventory.DEFAULT_ARMS = {
 		attack:new Attack({
 			power:3,
 			type:Attack.TYPE.SLAP,
-			range:new Attack.Range(1, 1),
-			block: new Block(0, Block.TYPE.NONE)
+			range:new Attack.Range(1, 1)
 		}),
 		block:new Block({
 			toughness:0,
@@ -47,7 +46,17 @@ Inventory.DEFAULT_ARMS = {
 	},
 	'いしをなげる':{
 		name:'いしをなげる',
-		type:Inventory.ITEM_TYPES.ARMS
+		type:Inventory.ITEM_TYPES.ARMS,
+		attack:new Attack({
+			power:1,
+			type:Attack.TYPE.THROW,
+			range:new Attack.Range(1, 5)
+		}),
+		block:new Block({
+			toughness:0,
+			type:Block.TYPE.NONE
+		}),
+		caption:'探索者の基本攻撃。どんなに非力な探索者でもこれだけは使える'
 	}
 };
 

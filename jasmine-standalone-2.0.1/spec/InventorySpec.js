@@ -153,7 +153,7 @@ describe('Inventory', function(){
 		it('「なぐる」の攻撃範囲、威力設定', function(){
 			var slap = Inventory.DEFAULT_ARMS['なぐる'];
 
-			//アナグマを8回殴れば倒せる程度の攻撃力
+			//アナグマを9回殴れば倒せる程度の攻撃力
 			expect(slap.attack.power).toBe(3);
 			expect(slap.attack.type).toBe(Attack.TYPE.SLAP);
 			expect(slap.attack.range.min).toBe(1);
@@ -163,6 +163,17 @@ describe('Inventory', function(){
 			expect(slap.caption).toBe('探索者の基本攻撃。どんなに非力な探索者でもこれだけは使える');
 		});
 
-		it('「いしをなげる」の攻撃範囲、威力設定');
+		it('「いしをなげる」の攻撃範囲、威力設定', function(){
+			var throwAStone = Inventory.DEFAULT_ARMS['いしをなげる'];
+
+			//アナグマを25回殴れば倒せる程度の攻撃力
+			expect(throwAStone.attack.power).toBe(1);
+			expect(throwAStone.attack.type).toBe(Attack.TYPE.THROW);
+			expect(throwAStone.attack.range.min).toBe(1);
+			expect(throwAStone.attack.range.max).toBe(5);
+			expect(throwAStone.block.toughness).toBe(0);
+			expect(throwAStone.block.type).toBe(Block.TYPE.NONE);
+			expect(throwAStone.caption).toBe('探索者の基本攻撃。どんなに非力な探索者でもこれだけは使える');
+		});
 	});
 });
