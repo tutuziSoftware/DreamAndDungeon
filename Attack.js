@@ -43,3 +43,9 @@ Attack.Range = function(min, max){
 	this.min = min;
 	this.max = max;
 };
+
+Attack.Range.prototype = {
+	isRange:function(range){
+		return this.min <= range && this.max >= range;
+	}
+};

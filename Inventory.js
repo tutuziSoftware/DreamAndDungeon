@@ -90,6 +90,13 @@ Inventory.prototype = {
 		inout.get(function(savedItems){
 			items = savedItems.map(function(item){
 				item.type = Inventory.ITEM_TYPES[item.type];
+				if(item.attack) {
+					item.attack = new Attack({
+						power:item.power,
+						type:item.type,
+						range:new Attack.Range(item.attack.max, item.attack.min)
+					});
+				}
 				return item;
 			});
 		}, this._getKey());
@@ -113,6 +120,16 @@ Inventory.prototype = {
 		}else if(arms.length === 1){
 			arms.push(Inventory.DEFAULT_ARMS['いしをなげる']);
 		}
+
+		return arms;
+	},
+	getArmRanges:function(range){
+		var arms = this.getArms().filter(function(arm){
+			console.log(arm);
+			return arm.attack.range.isRange(range);
+		});
+
+		arms.push(Inventory.DEFAULT_ARMS['なぐる']);
 
 		return arms;
 	},

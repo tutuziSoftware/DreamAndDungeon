@@ -202,6 +202,12 @@ describe('Inventory', function(){
 			});
 		});
 
-		it('装備はレンジごとに返すように修正する {"1":[], "2":[]}');
+		it('装備はレンジごとに返すように修正する {"1":[], "2":[]}', function(){
+			var one = inventory.getArmRanges(1);
+
+			expect(one.length, 2);
+			expect(one[0].name, '剣');
+			expect(one[1].name, 'なぐる');
+		});
 	});
 });
