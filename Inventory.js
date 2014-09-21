@@ -130,8 +130,13 @@ Inventory.prototype = {
 			return arm.attack.range.isRange(range);
 		});
 
-		arms.push(Inventory.DEFAULT_ARMS['なぐる']);
-		arms.push(Inventory.DEFAULT_ARMS['いしをなげる']);
+		for(var key in Inventory.DEFAULT_ARMS){
+			var defaultArms = Inventory.DEFAULT_ARMS[key];
+
+			if(defaultArms.attack.range.isRange(range)){
+				arms.push(defaultArms);
+			}
+		}
 
 		return arms;
 	},

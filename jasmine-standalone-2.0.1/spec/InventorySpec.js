@@ -216,12 +216,25 @@ describe('Inventory', function(){
 		it('攻撃範囲2', function(){
 			var arms = inventory.getArmRanges(2);
 
-			expect(arms.length).toBe(4);
+			expect(arms.length).toBe(3);
 			expect(arms[0].name).toBe('剣');
 			expect(arms[1].name).toBe('弓');
-			expect(arms[2].name).toBe('なぐる');
-			expect(arms[3].name).toBe('いしをなげる');
+			expect(arms[2].name).toBe('いしをなげる');
+		});
 
+		it('攻撃範囲3', function(){
+			var arms = inventory.getArmRanges(3);
+
+			expect(arms.length).toBe(2);
+			expect(arms[0].name).toBe('弓');
+			expect(arms[1].name).toBe('いしをなげる');
+		});
+
+		it('攻撃範囲5', function(){
+			var arms = inventory.getArmRanges(5);
+
+			expect(arms.length).toBe(1);
+			expect(arms[0].name).toBe('いしをなげる');
 		});
 	});
 });
