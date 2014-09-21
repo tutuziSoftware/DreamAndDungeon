@@ -35,11 +35,19 @@ Attack.TYPE.THROW = 4;
 
 /**
  * 攻撃の範囲を示す定数です。
- * @param min
- * @param max
+ * このコンストラクタで指定する数値は順序が逆でもOKです。
+ *
+ * @param min 攻撃範囲の最小値です
+ * @param max 攻撃範囲の最大値です
  * @constructor
  */
 Attack.Range = function(min, max){
+	if(min > max){
+		var work = min;
+		min = max;
+		max = work;
+	}
+
 	this.min = min;
 	this.max = max;
 };
