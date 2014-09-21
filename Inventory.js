@@ -94,7 +94,9 @@ Inventory.prototype = {
 					item.attack = new Attack({
 						power:item.power,
 						type:item.type,
-						range:new Attack.Range(item.attack.max, item.attack.min)
+						range:new Attack.Range(
+							item.attack.range.max,
+							item.attack.range.min)
 					});
 				}
 				return item;
@@ -125,11 +127,11 @@ Inventory.prototype = {
 	},
 	getArmRanges:function(range){
 		var arms = this.getArms().filter(function(arm){
-			console.log(arm);
 			return arm.attack.range.isRange(range);
 		});
 
 		arms.push(Inventory.DEFAULT_ARMS['なぐる']);
+		arms.push(Inventory.DEFAULT_ARMS['いしをなげる']);
 
 		return arms;
 	},

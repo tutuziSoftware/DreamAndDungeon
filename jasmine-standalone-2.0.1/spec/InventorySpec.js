@@ -35,6 +35,8 @@ describe('Inventory', function(){
 			expect(shield[0].type).toBe(Inventory.ITEM_TYPES.ARMS);
 		});
 
+		it('考察メモ：手装備に「なぐる」「いしをなげる」は含まれていいんじゃないか？');
+
 		it('手装備は二つまで', function(){
 			inventory.push({
 				name:'剣',
@@ -202,12 +204,24 @@ describe('Inventory', function(){
 			});
 		});
 
-		it('装備はレンジごとに返すように修正する {"1":[], "2":[]}', function(){
+		it('攻撃範囲1', function(){
 			var one = inventory.getArmRanges(1);
 
-			expect(one.length, 2);
-			expect(one[0].name, '剣');
-			expect(one[1].name, 'なぐる');
+			expect(one.length).toBe(3);
+			expect(one[0].name).toBe('剣');
+			expect(one[1].name).toBe('なぐる');
+			expect(one[2].name).toBe('いしをなげる');
+		});
+
+		it('攻撃範囲2', function(){
+			var one = inventory.getArmRanges(2);
+
+			expect(one.length).toBe(4);
+			expect(one[0].name).toBe('剣');
+			expect(one[1].name).toBe('弓');
+			expect(one[2].name).toBe('なぐる');
+			expect(one[3].name).toBe('いしをなげる');
+
 		});
 	});
 });
