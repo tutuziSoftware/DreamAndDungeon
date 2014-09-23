@@ -35,8 +35,6 @@ describe('Inventory', function(){
 			expect(shield[0].type).toBe(Inventory.ITEM_TYPES.ARMS);
 		});
 
-		it('考察メモ：手装備に「なぐる」「いしをなげる」は含まれていいんじゃないか？');
-
 		it('手装備は二つまで', function(){
 			inventory.push({
 				name:'剣',
