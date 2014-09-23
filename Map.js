@@ -109,6 +109,26 @@ Map.prototype = {
 
 		return outOfUnitIds;
 	},
+	/**
+	 * ユニット同士の相対距離を求めます。
+	 * @param id1
+	 * @param id2
+	 * @return {Number}
+	 */
+	getRelativePosition:function(id1, id2){
+		var id1Point = this.getPoint(id1);
+		var id2Point = this.getPoint(id2);
+
+		var id1X = Math.abs(id1Point.x);
+		var id1Y = Math.abs(id1Point.y);
+		var id2X = Math.abs(id2Point.x);
+		var id2Y = Math.abs(id2Point.y);
+
+		var id1Relative = Math.max(id1X, id1Y) - Math.min(id1X, id1Y);
+		var id2Relative = Math.max(id2X, id2Y) - Math.min(id2X, id2Y);
+
+		return Math.max(id1Relative, id2Relative) + Math.min(id1Relative, id2Relative);
+	},
 	_isUnitExist:function(x, y){
 		return this._getPointKey(x,y) in this._point;
 	},

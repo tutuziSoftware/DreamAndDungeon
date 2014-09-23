@@ -115,8 +115,14 @@ describe('Map', function() {
 			map.add(4, 5, 'test2');
 
 			var distance = map.getRelativePosition('test', 'test2');
-
 			expect(distance).toBe(2);
+		});
+
+		it('もう少しテスト', function(){
+			map.add(4, 6, 'test3');
+
+			var distance = map.getRelativePosition('test', 'test3');
+			expect(distance).toBe(3);
 		});
 	});
 });
