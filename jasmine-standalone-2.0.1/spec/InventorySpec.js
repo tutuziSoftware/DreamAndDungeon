@@ -26,8 +26,6 @@ describe('Inventory', function(){
 			});
 		});
 
-		it('メモ用it：装備はレンジごとに返すように修正する {"1":[], "2":[]}');
-
 		it('一番上にある装備を返す', function(){
 			var shield = inventory.getArms(Inventory.HAND);
 
@@ -174,6 +172,67 @@ describe('Inventory', function(){
 			expect(throwAStone.block.toughness).toBe(0);
 			expect(throwAStone.block.type).toBe(Block.TYPE.NONE);
 			expect(throwAStone.caption).toBe('探索者の基本攻撃。どんなに非力な探索者でもこれだけは使える');
+		});
+	});
+
+	describe('攻撃範囲ごとに武器を返すメソッドを作る', function(){
+		var inventory;
+
+		beforeEach(function(){
+			inventory = new Inventory('id');
+			inventory.clear();
+
+			inventory.push({
+				name:'剣',
+				type:Inventory.ITEM_TYPES.ARMS,
+				attack:new Attack({
+					power:3,
+					type:Attack.TYPE.SLAP,
+					range:new Attack.Range(1, 2)
+				})
+			});
+			inventory.push({
+				name:'弓',
+				type:Inventory.ITEM_TYPES.ARMS,
+				attack:new Attack({
+					power:4,
+					type:Attack.TYPE.SLAP,
+					range:new Attack.Range(2, 4)
+				})
+			});
+		});
+
+		it('攻撃範囲1', function(){
+			var one = inventory.getArmRanges(1);
+
+			expect(one.length).toBe(3);
+			expect(one[0].name).toBe('剣');
+			expect(one[1].name).toBe('なぐる');
+			expect(one[2].name).toBe('いしをなげる');
+		});
+
+		it('攻撃範囲2', function(){
+			var arms = inventory.getArmRanges(2);
+
+			expect(arms.length).toBe(3);
+			expect(arms[0].name).toBe('剣');
+			expect(arms[1].name).toBe('弓');
+			expect(arms[2].name).toBe('いしをなげる');
+		});
+
+		it('攻撃範囲3', function(){
+			var arms = inventory.getArmRanges(3);
+
+			expect(arms.length).toBe(2);
+			expect(arms[0].name).toBe('弓');
+			expect(arms[1].name).toBe('いしをなげる');
+		});
+
+		it('攻撃範囲5', function(){
+			var arms = inventory.getArmRanges(5);
+
+			expect(arms.length).toBe(1);
+			expect(arms[0].name).toBe('いしをなげる');
 		});
 	});
 });
