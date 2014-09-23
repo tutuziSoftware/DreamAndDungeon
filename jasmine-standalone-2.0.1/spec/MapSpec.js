@@ -109,4 +109,14 @@ describe('Map', function() {
 			expect('4,4' in JSON.parse(localStorage['maps'])).toBe(true);
 		});
 	});
+
+	describe('ユニット間の相対距離を求める', function(){
+		it('ユニット間の相対距離を求める', function(){
+			map.add(4, 5, 'test2');
+
+			var distance = map.getRelativePosition('test', 'test2');
+
+			expect(distance).toBe(2);
+		});
+	});
 });
