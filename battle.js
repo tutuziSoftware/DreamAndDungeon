@@ -98,14 +98,11 @@ DAD.controller('charactersController', function($scope){
 	};
 
 	$scope.attack = function(blockCharacterId){
-		var attacker = $scope.characters[attackCharacterId];
 		var blocker = $scope.enemys[blockCharacterId];
+		var inventory = new Inventory(attackCharacterId);
 
-		if(attacker.equipment === void 0 || attacker.equipment.length === 0){
-			//TODO 装備がない場合、「いしをなげる」「なぐる」を入れる
-		}
-
-		//TODO 装備に関するデータ構造の推敲が必要
+		//TODO アタッカーとブロッカーの相対距離を求める
+		//TODO 装備がない場合、「いしをなげる」「なぐる」を入れる
 
 		$scope.isAttackMode = false;
 	}
