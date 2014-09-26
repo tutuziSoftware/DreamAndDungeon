@@ -103,6 +103,10 @@ DAD.controller('charactersController', function($scope){
 
 		//TODO アタッカーとブロッカーの相対距離を求める
 		//TODO 装備がない場合、「いしをなげる」「なぐる」を入れる
+		var relative = map.getRelativePosition(attackCharacterId, blockCharacterId);
+		var arms = inventory.getArmRanges(relative);
+
+		debugger;
 
 		$scope.isAttackMode = false;
 	}
