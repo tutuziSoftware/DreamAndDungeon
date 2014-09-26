@@ -237,6 +237,21 @@ describe('Inventory', function(){
 			});
 		});
 
-		
+		describe('不具合：装備が0の時、「なぐる」「いしをなげる」が二つ返る', function(){
+			var inventory;
+
+			beforeEach(function(){
+				inventory = new Inventory('id');
+				inventory.clear();
+			});
+
+			it('「なぐる」「いしをなげる」のみが返るはず', function(){
+				var arms = inventory.getArmRanges(1);
+
+				expect(arms.length).toBe(2);
+				expect(arms[0].name).toBe('なぐる');
+				expect(arms[1].name).toBe('いしをなげる');
+			});
+		});
 	});
 });
