@@ -101,12 +101,15 @@ DAD.controller('charactersController', function($scope){
 		var blocker = $scope.enemys[blockCharacterId];
 		var inventory = new Inventory(attackCharacterId);
 
-		//TODO アタッカーとブロッカーの相対距離を求める
-		//TODO 装備がない場合、「いしをなげる」「なぐる」を入れる
 		var relative = map.getRelativePosition(attackCharacterId, blockCharacterId);
 		var arms = inventory.getArmRanges(relative);
 
-		debugger;
+		var selectArm = Math.floor(Math.random() * arms.length);
+		var arm = arms[selectArm];
+		blocker.hp -= arm.attack.power;
+
+		$scope.log.push($scope.characters[attackCharacterId].name + 'の ' + arm.name +' こうげき!');
+		$scope.log.push($scope.enemys[blockCharacterId].name + 'に' + arm.attack.power + 'のダメージ!');
 
 		$scope.isAttackMode = false;
 	}
