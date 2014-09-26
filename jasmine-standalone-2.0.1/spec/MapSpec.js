@@ -109,4 +109,27 @@ describe('Map', function() {
 			expect('4,4' in JSON.parse(localStorage['maps'])).toBe(true);
 		});
 	});
+
+	describe('ユニット間の相対距離を求める', function(){
+		it('ユニット間の相対距離を求める', function(){
+			map.add(4, 5, 'test2');
+
+			var distance = map.getRelativePosition('test', 'test2');
+			expect(distance).toBe(2);
+		});
+
+		it('もう少しテスト', function(){
+			map.add(4, 6, 'test3');
+
+			var distance = map.getRelativePosition('test', 'test3');
+			expect(distance).toBe(3);
+		});
+
+		it('座標がマイナスでも動く事を証明する', function(){
+			map.add(-1, 4, 'test4');
+
+			var distance = map.getRelativePosition('test', 'test4');
+			expect(distance).toBe(4);
+		});
+	});
 });
