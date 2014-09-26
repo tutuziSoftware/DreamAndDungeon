@@ -125,6 +125,11 @@ Inventory.prototype = {
 
 		return arms;
 	},
+	/**
+	 * 攻撃可能な武器を返します。
+	 * @param range 攻撃対象の距離です
+	 * @return {Array} 攻撃可能な武器を返します。
+	 */
 	getArmRanges:function(range){
 		if(this._isDefaultArms()){
 			return this.getArms();

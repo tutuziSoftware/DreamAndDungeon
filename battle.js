@@ -97,6 +97,11 @@ DAD.controller('charactersController', function($scope){
 		$scope.isAttackMode = true;
 	};
 
+	/**
+	 * 敵を攻撃する為のメソッドです。
+	 * このメソッドは敵側からは使えません。
+	 * @param blockCharacterId
+	 */
 	$scope.attack = function(blockCharacterId){
 		var blocker = $scope.enemys[blockCharacterId];
 		var inventory = new Inventory(attackCharacterId);
