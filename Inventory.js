@@ -126,6 +126,10 @@ Inventory.prototype = {
 		return arms;
 	},
 	getArmRanges:function(range){
+		if(this._isDefaultArms()){
+			return this.getArms();
+		}
+
 		var arms = this.getArms().filter(function(arm){
 			return arm.attack.range.isRange(range);
 		});
@@ -139,6 +143,15 @@ Inventory.prototype = {
 		}
 
 		return arms;
+	},
+	/**
+	 * デフォルト武器のみ装備している場合、trueが返ります。
+	 * @private
+	 */
+	_isDefaultArms:function(){
+		return this.getArms().some(function(arm){
+			return Inventory.DEFAULT_ARMS[arm.name];
+		});
 	},
 	/**
 	 * アイテムを移動させます。
