@@ -124,5 +124,12 @@ describe('Map', function() {
 			var distance = map.getRelativePosition('test', 'test3');
 			expect(distance).toBe(3);
 		});
+
+		it('座標がマイナスでも動く事を証明する', function(){
+			map.add(-1, 4, 'test4');
+
+			var distance = map.getRelativePosition('test', 'test4');
+			expect(distance).toBe(4);
+		});
 	});
 });
