@@ -119,6 +119,7 @@ DAD.controller('charactersController', function($scope){
 		_deleteCreature(blockCharacterId);
 
 		$scope.isAttackMode = false;
+		$scope.nextTurn();
 
 		/**
 		 * HPが0になったクリーチャーを破壊します。
