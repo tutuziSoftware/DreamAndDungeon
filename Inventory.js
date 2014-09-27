@@ -131,30 +131,46 @@ Inventory.prototype = {
 	 * @return {Array} 攻撃可能な武器を返します。
 	 */
 	getArmRanges:function(range){
-		if(this._isDefaultArms()){
-			return this.getArms();
-		}
-
+		//攻撃可能な武器を割り出す
 		var arms = this.getArms().filter(function(arm){
 			return arm.attack.range.isRange(range);
 		});
 
-		for(var key in Inventory.DEFAULT_ARMS){
-			var defaultArms = Inventory.DEFAULT_ARMS[key];
+		//デフォルト武器で攻撃可能なものを割り出す
+		//memo:
+		//		この部分の処理は「なぐる」「いしをなげる」に特化しても良いのですが、
+		//		デフォルト武器が変更になった時、ここも変更しなければならない為、
+		//		どんな武器が来てもOKなようにしています。
 
-			if(defaultArms.attack.range.isRange(range)){
-				arms.push(defaultArms);
+		//デフォルト武器のキーを連想配列に変換
+		var keys = Object.keys(Inventory.DEFAULT_ARMS);
+		var defaultArms = keys.reduce(function(obj, key){
+			obj[key] = key;
+			return obj;
+		}, {});
+
+		//デフォルト武器を武器として装備している場合は除外する。
+		arms.forEach(function(arm){
+			if(arm.name in Inventory.DEFAULT_ARMS){
+				delete defaultArms[arm.name];
 			}
-		}
+		});
+
+		//装備していないデフォルト武器の中で、攻撃可能な場合は攻撃可能な武器として追加する
+		Object.keys(defaultArms).forEach(function(key){
+			if(Inventory.DEFAULT_ARMS[key].attack.range.isRange(range)){
+				arms.push(Inventory.DEFAULT_ARMS[key]);
+			}
+		});
 
 		return arms;
 	},
 	/**
-	 * デフォルト武器のみ装備している場合、trueが返ります。
+	 * デフォルト武器を一つも装備していない場合、trueが返ります。
 	 * @private
 	 */
-	_isDefaultArms:function(){
-		return this.getArms().some(function(arm){
+	_isNotDefaultArms:function(){
+		return this.getArms().every(function(arm){
 			return Inventory.DEFAULT_ARMS[arm.name];
 		});
 	},
