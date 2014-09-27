@@ -137,14 +137,17 @@ Inventory.prototype = {
 		});
 
 		//デフォルト武器で攻撃可能なものを割り出す
-		//きたない……
+		//memo:
+		//		この部分の処理は「なぐる」「いしをなげる」に特化しても良いのですが、
+		//		デフォルト武器が変更になった時、ここも変更しなければならない為、
+		//		どんな武器が来てもOKなようにしています。
 
 		//デフォルト武器のキーを連想配列に変換
 		var keys = Object.keys(Inventory.DEFAULT_ARMS);
-		var defaultArms = {};
-		keys.forEach(function(key){
-			defaultArms[key] = key;
-		});
+		var defaultArms = keys.reduce(function(obj, key){
+			obj[key] = key;
+			return obj;
+		}, {});
 
 		//デフォルト武器を武器として装備している場合は除外する。
 		arms.forEach(function(arm){
