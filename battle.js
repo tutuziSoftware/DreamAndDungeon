@@ -116,7 +116,23 @@ DAD.controller('charactersController', function($scope){
 		$scope.log.push($scope.characters[attackCharacterId].name + 'の ' + arm.name +' こうげき!');
 		$scope.log.push($scope.enemys[blockCharacterId].name + 'に' + arm.attack.power + 'のダメージ!');
 
+		_deleteCreature(blockCharacterId);
+
 		$scope.isAttackMode = false;
+
+		/**
+		 * HPが0になったクリーチャーを破壊します。
+		 * @param blockCharacterId クリーチャーID
+		 * @private
+		 */
+		function _deleteCreature(blockCharacterId){
+			var blocker = $scope.enemys[blockCharacterId];
+
+			if(blocker.hp <= 0){
+				delete $scope.enemys[blockCharacterId];
+				$scope.log.push(blocker.name + 'を たおした!');
+			}
+		}
 	}
 
 	/**
