@@ -237,20 +237,38 @@ describe('Inventory', function(){
 			});
 		});
 
-		describe('不具合：装備が0の時、「なぐる」「いしをなげる」が二つ返る', function(){
-			var inventory;
+		describe('不具合', function(){
+			describe('装備が0の時、「なぐる」「いしをなげる」が二つ返る', function(){
+				var inventory;
 
-			beforeEach(function(){
-				inventory = new Inventory('id');
-				inventory.clear();
+				beforeEach(function(){
+					inventory = new Inventory('id');
+					inventory.clear();
+				});
+
+				it('「なぐる」「いしをなげる」のみが返るはず', function(){
+					var arms = inventory.getArmRanges(1);
+
+					expect(arms.length).toBe(2);
+					expect(arms[0].name).toBe('なぐる');
+					expect(arms[1].name).toBe('いしをなげる');
+				});
 			});
 
-			it('「なぐる」「いしをなげる」のみが返るはず', function(){
-				var arms = inventory.getArmRanges(1);
+			describe('2距離以降で「なぐる」が返ってきてしまう', function(){
+				var inventory;
 
-				expect(arms.length).toBe(2);
-				expect(arms[0].name).toBe('なぐる');
-				expect(arms[1].name).toBe('いしをなげる');
+				beforeEach(function(){
+					inventory = new Inventory('id');
+					inventory.clear();
+				});
+
+				it('「いしをなげる」のみが返るはず', function(){
+					var arms = inventory.getArmRanges(2);
+
+					expect(arms.length).toBe(1);
+					expect(arms[0].name).toBe('いしをなげる');
+				});
 			});
 		});
 	});
