@@ -119,13 +119,13 @@ Map.prototype = {
 		var id1Point = this.getPoint(id1);
 		var id2Point = this.getPoint(id2);
 
-		var id1X = Math.abs(id1Point.x);
-		var id1Y = Math.abs(id1Point.y);
-		var id2X = Math.abs(id2Point.x);
-		var id2Y = Math.abs(id2Point.y);
+		var id1X = id1Point.x;
+		var id1Y = id1Point.y;
+		var id2X = id2Point.x;
+		var id2Y = id2Point.y;
 
-		var id1Relative = Math.max(id1X, id1Y) - Math.min(id1X, id1Y);
-		var id2Relative = Math.max(id2X, id2Y) - Math.min(id2X, id2Y);
+		var id1Relative = Math.max(id1X, id2X) - Math.min(id1X, id2X);
+		var id2Relative = Math.max(id1Y, id2Y) - Math.min(id1Y, id2Y);
 
 		return Math.max(id1Relative, id2Relative) + Math.min(id1Relative, id2Relative);
 	},
