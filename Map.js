@@ -125,7 +125,7 @@ Map.prototype = {
 		var id2Y = Math.abs(id2Point.y);
 
 		var id1Relative = Math.max(id1X, id2X) - Math.min(id1X, id2X);
-		var id2Relative = Math.max(id2X, id2Y) - Math.min(id2X, id2Y);
+		var id2Relative = Math.max(id1Y, id2Y) - Math.min(id1Y, id2Y);
 
 		return Math.max(id1Relative, id2Relative) + Math.min(id1Relative, id2Relative);
 	},
