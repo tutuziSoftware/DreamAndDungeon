@@ -132,4 +132,12 @@ describe('Map', function() {
 			expect(distance).toBe(4);
 		});
 	});
+
+	it('バグ：移動時に相対距離がおかしくなる不具合', function(){
+		//3, 4
+		map.add(3, 5, 'test2');
+
+		var distance = map.getRelativePosition('test', 'test2');
+		expect(distance).toBe(1);
+	});
 });
