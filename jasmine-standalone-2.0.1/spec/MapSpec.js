@@ -140,4 +140,24 @@ describe('Map', function() {
 		var distance = map.getRelativePosition('test', 'test2');
 		expect(distance).toBe(1);
 	});
+
+	describe('街の位置の実装', function(){
+		var map;
+
+		beforeEach(function(){
+			delete localStorage['maps'];
+			map = new Map();
+		});
+
+		/**
+		 * memo:
+		 * 		街はユニット扱いです。
+		 * 		街かどうかは街Queueで判断します。すなわち、Map.jsでは判断せず、位置のみを把握しているという事です。
+		 */
+		it('街の位置を追加/取得出来るよう実装する', function(){
+			map.add(2, 5, 'country');
+		});
+
+		it('街と同じ座標にユニットが入った場合、イベントを発火させる');
+	});
 });
