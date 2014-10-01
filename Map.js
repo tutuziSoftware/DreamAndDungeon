@@ -1,6 +1,7 @@
 function Map(callback){
 	this._units = {};
 	this._point = {};
+	this._eventListener = {};
 
 	var self = this;
 	this._inout = new InOut();
@@ -33,12 +34,18 @@ Map.prototype = {
 			return;
 		}
 
-		var point = this._getPointKey(x, y);
+		this._setUnit(x, y, unitId);
+	},
+	addEventListener:function(unitId, eventName, eventListener){
+		if(unitId in this._eventListener === false){
+			this._eventListener[unitId] = {};
+		}
 
-		this._point[point] = unitId;
-		this._units[unitId] = point;
+		if(eventName in this._eventListener[unitId] === false){
+			this._eventListener[unitId][eventName] = [];
+		}
 
-		this._inout.set(this._point, 'maps');
+		this._eventListener[unitId][eventName].push(eventListener);
 	},
 	moveUnit:function(unitId, move){
 		var point = this.getPoint(unitId);
@@ -56,7 +63,18 @@ Map.prototype = {
 			var x = oldPoint.x + move.x;
 			var y = oldPoint.y + move.y;
 
-			this.add(x, y, unitId);
+			if(this._isUnitExist(x, y)){
+				var _ = this._point[this._getPointKey(x, y)];
+				if('overlap' in this._eventListener[_]){
+					this._eventListener[_]['overlap'].forEach(function(eventListener){
+						eventListener();
+					});
+				}
+
+				this.add(x, y, unitId);
+			}else{
+				this.add(x, y, unitId);
+			}
 		}
 	},
 	getPoint:function(unitId){
@@ -134,5 +152,21 @@ Map.prototype = {
 	},
 	_getPointKey:function(x, y){
 		return x + ',' + y;
+	},
+	/**
+	 * ユニットを指定した座標に配置します。
+	 * ユニットがすでにその座標に配置済みの場合、このメソッドは上書きを行います。
+	 * @param x
+	 * @param y
+	 * @param unitId
+	 * @private
+	 */
+	_setUnit:function(x, y, unitId){
+		var point = this._getPointKey(x, y);
+
+		this._point[point] = unitId;
+		this._units[unitId] = point;
+
+		this._inout.set(this._point, 'maps');
 	}
 };
