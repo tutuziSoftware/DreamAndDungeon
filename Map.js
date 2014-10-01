@@ -34,12 +34,7 @@ Map.prototype = {
 			return;
 		}
 
-		var point = this._getPointKey(x, y);
-
-		this._point[point] = unitId;
-		this._units[unitId] = point;
-
-		this._inout.set(this._point, 'maps');
+		this._setUnit(x, y, unitId);
 	},
 	addEventListener:function(unitId, eventName, eventListener){
 		if(unitId in this._eventListener === false){
@@ -146,5 +141,21 @@ Map.prototype = {
 	},
 	_getPointKey:function(x, y){
 		return x + ',' + y;
+	},
+	/**
+	 * ユニットを指定した座標に配置します。
+	 * ユニットがすでにその座標に配置済みの場合、このメソッドは上書きを行います。
+	 * @param x
+	 * @param y
+	 * @param unitId
+	 * @private
+	 */
+	_setUnit:function(x, y, unitId){
+		var point = this._getPointKey(x, y);
+
+		this._point[point] = unitId;
+		this._units[unitId] = point;
+
+		this._inout.set(this._point, 'maps');
 	}
 };
