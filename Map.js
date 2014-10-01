@@ -63,7 +63,18 @@ Map.prototype = {
 			var x = oldPoint.x + move.x;
 			var y = oldPoint.y + move.y;
 
-			this.add(x, y, unitId);
+			if(this._isUnitExist(x, y)){
+				var _ = this._point[this._getPointKey(x, y)];
+				if('overlap' in this._eventListener[_]){
+					this._eventListener[_]['overlap'].forEach(function(eventListener){
+						eventListener();
+					});
+				}
+
+				this.add(x, y, unitId);
+			}else{
+				this.add(x, y, unitId);
+			}
 		}
 	},
 	getPoint:function(unitId){

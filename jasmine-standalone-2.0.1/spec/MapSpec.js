@@ -160,6 +160,7 @@ describe('Map', function() {
 			map.add(2, 6, 'rika');
 
 			map.addEventListener('bootlo', 'overlap', function(){
+				expect(true).toBeTruthy();
 				done();
 			});
 			map.moveUnit('rika', Map.TOP);
