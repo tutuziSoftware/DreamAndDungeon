@@ -1,6 +1,7 @@
 function Map(callback){
 	this._units = {};
 	this._point = {};
+	this._eventListener = {};
 
 	var self = this;
 	this._inout = new InOut();
@@ -39,6 +40,17 @@ Map.prototype = {
 		this._units[unitId] = point;
 
 		this._inout.set(this._point, 'maps');
+	},
+	addEventListener:function(unitId, eventName, eventListener){
+		if(unitId in this._eventListener === false){
+			this._eventListener[unitId] = {};
+		}
+
+		if(eventName in this._eventListener[unitId] === false){
+			this._eventListener[unitId][eventName] = [];
+		}
+
+		this._eventListener[unitId][eventName].push(eventListener);
 	},
 	moveUnit:function(unitId, move){
 		var point = this.getPoint(unitId);
