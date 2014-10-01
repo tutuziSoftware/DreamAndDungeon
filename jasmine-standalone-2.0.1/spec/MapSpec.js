@@ -153,11 +153,16 @@ describe('Map', function() {
 		 * memo:
 		 * 		街はユニット扱いです。
 		 * 		街かどうかは街Queueで判断します。すなわち、Map.jsでは判断せず、位置のみを把握しているという事です。
+		 * 		モンスター→街への変化もあり得る、という事です。
 		 */
-		it('街の位置を追加/取得出来るよう実装する', function(){
-			map.add(2, 5, 'country');
-		});
+		it('街と同じ座標にユニットが入った場合、イベントを発火させる', function(done){
+			map.add(2, 5, 'bootlo');
+			map.add(2, 6, 'rika');
 
-		it('街と同じ座標にユニットが入った場合、イベントを発火させる');
+			map.addEventListener('bootlo', 'overlap', function(){
+				done();
+			});
+			map.moveUnit('rika', Map.TOP);
+		});
 	});
 });
