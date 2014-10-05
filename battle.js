@@ -17,7 +17,7 @@ DAD.controller('charactersController', function($scope){
 
 	//ユニット登録
 	//データは{id:{ユニットの情報}}という感じで保存されている。
-	['characters', 'enemys'].forEach(function(unitsKey){
+	['characters', 'enemys', 'towns'].forEach(function(unitsKey){
 		inout.get(function(units){
 			roopUnits(units, [
 				statusToStatusObject,
