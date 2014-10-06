@@ -71,10 +71,10 @@ Map.prototype = {
 			this._eventListener[unitId][eventName] = [];
 		}
 
-		this._eventListener[unitId][eventName].push({
+		this._eventListener[unitId][eventName].push(new Map.Overlap({
 			args:eventOption['args'],
 			listener:eventOption['listener']
-		});
+		}));
 	},
 	moveUnit:function(unitId, move){
 		var point = this.getPoint(unitId);
@@ -93,11 +93,13 @@ Map.prototype = {
 			var y = oldPoint.y + move.y;
 
 			if(this._isUnitExist(x, y)){
-				var _ = this._point[this._getPointKey(x, y)];
-				if('overlap' in this._eventListener[_]){
-					this._eventListener[_]['overlap'].forEach(function(event){
-						event.listener();
-					});
+				var etcUnitId = this._point[this._getPointKey(x, y)];
+				if('overlap' in this._eventListener[etcUnitId]){
+					this._eventListener[etcUnitId]['overlap'].forEach(function(event){
+						//TODO	unitIdがremove関数により一時的に位置不明になっている為、
+						//		相対距離の算出が行えないようになってしまっている。
+						event.execute(this.getRelativePosition(etcUnitId, unitId));
+					}, this);
 				}
 
 				this.add(x, y, unitId);
