@@ -168,6 +168,16 @@ Map.prototype = {
 		var id1Point = this.getPoint(id1);
 		var id2Point = this.getPoint(id2);
 
+		return this._getRelativePosition(id1Point, id2Point);
+	},
+	/**
+	 * ユニット同士の相対距離を座標オブジェクトから求めます。
+	 * @param id1Point
+	 * @param id2Point
+	 * @return {Number}
+	 * @private
+	 */
+	_getRelativePosition:function(id1Point, id2Point){
 		var id1X = id1Point.x;
 		var id1Y = id1Point.y;
 		var id2X = id2Point.x;
