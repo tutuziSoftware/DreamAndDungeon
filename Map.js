@@ -92,13 +92,15 @@ Map.prototype = {
 			var x = oldPoint.x + move.x;
 			var y = oldPoint.y + move.y;
 
+			//TODO イベントの発火可否はここではなく各イベントのクラスが行うべき
+			//TODO [unitId][eventName]ではなく[eventName][unitId]の方が妥当？
+			//			→イベントの性質によりけりかも。overlapは後者が妥当
+
 			if(this._isUnitExist(x, y)){
 				var etcUnitId = this._point[this._getPointKey(x, y)];
 				if('overlap' in this._eventListener[etcUnitId]){
 					this._eventListener[etcUnitId]['overlap'].forEach(function(event){
-						//TODO	unitIdがremove関数により一時的に位置不明になっている為、
-						//		相対距離の算出が行えないようになってしまっている。
-						event.execute(this.getRelativePosition(etcUnitId, unitId));
+						event.execute(this._getRelativePosition(etcUnitId, unitId));
 					}, this);
 				}
 
