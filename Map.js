@@ -199,3 +199,24 @@ Map.prototype = {
 		this._inout.set(this._point, 'maps');
 	}
 };
+
+
+/**
+ * overlapイベントを表現するクラスです。
+ * このクラスはあるユニットの指定範囲内に別のユニットが侵入した時、イベントを発火させます。
+ * @param args
+ * @param listener
+ * @constructor
+ */
+Map.Overlap = function(args){
+	this._range = 'range' in args ? args['range'] : 1;
+	this._listener = 'listener' in args ? args['listener'] : function(){};
+}
+
+Map.Overlap.prototype = {
+	execute:function(relativePosition){
+		if(relativePosition <= this._range){
+			this._listener();
+		}
+	}
+};
