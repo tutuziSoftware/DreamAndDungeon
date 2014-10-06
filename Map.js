@@ -37,6 +37,20 @@ Map.prototype = {
 		this._setUnit(x, y, unitId);
 	},
 	addEventListener:function(unitId, eventName, eventListener){
+		if(arguments.length === 3){
+			this._addEventListener(unitId, {
+				name:eventName,
+				listener:eventListener
+			});
+		}else if(arguments.length === 2){
+			var eventOption = eventName;
+			this._addEventListener(unitId, eventOption);
+		}
+	},
+	_addEventListener:function(unitId, eventOption){
+		var eventName = eventOption['name'];
+		var eventListener = eventOption['listener'];
+
 		if(unitId in this._eventListener === false){
 			this._eventListener[unitId] = {};
 		}
