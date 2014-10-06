@@ -1,6 +1,19 @@
 function Map(callback){
 	this._units = {};
 	this._point = {};
+	/**
+	 *
+	 * @type { 'ユニットのID':{
+	 *  	'イベント名':[
+	 *  		{
+	 *  		 	'args':{},
+	 *  		 	'listener':function
+	 *  		}
+	 *  	]
+	 * 	}
+	 * }
+	 * @private
+	 */
 	this._eventListener = {};
 
 	var self = this;
