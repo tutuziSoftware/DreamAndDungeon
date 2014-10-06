@@ -49,7 +49,6 @@ Map.prototype = {
 	},
 	_addEventListener:function(unitId, eventOption){
 		var eventName = eventOption['name'];
-		var eventListener = eventOption['listener'];
 
 		if(unitId in this._eventListener === false){
 			this._eventListener[unitId] = {};
@@ -59,7 +58,10 @@ Map.prototype = {
 			this._eventListener[unitId][eventName] = [];
 		}
 
-		this._eventListener[unitId][eventName].push(eventListener);
+		this._eventListener[unitId][eventName].push({
+			args:eventOption['args'],
+			listener:eventOption['listener']
+		});
 	},
 	moveUnit:function(unitId, move){
 		var point = this.getPoint(unitId);
@@ -80,8 +82,8 @@ Map.prototype = {
 			if(this._isUnitExist(x, y)){
 				var _ = this._point[this._getPointKey(x, y)];
 				if('overlap' in this._eventListener[_]){
-					this._eventListener[_]['overlap'].forEach(function(eventListener){
-						eventListener();
+					this._eventListener[_]['overlap'].forEach(function(event){
+						event.listener();
 					});
 				}
 
