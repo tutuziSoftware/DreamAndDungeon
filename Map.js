@@ -1,7 +1,18 @@
 function Map(callback){
 	this._units = {};
 	this._point = {};
-	this._overlapEventListener = [];
+	/**
+	 *
+	 * @type {
+	 * 			unitId:[
+	 * 				Map.Overlap,
+	 * 				...
+	 * 			],
+	 * 			...
+	 * 		}
+	 * @private
+	 */
+	this._overlapEventListener = {};
 
 	var self = this;
 	this._inout = new InOut();
@@ -80,17 +91,26 @@ Map.prototype = {
 			var x = oldPoint.x + move.x;
 			var y = oldPoint.y + move.y;
 
-			var unitIds = Object.keys(this._overlapEventListener);
-			unitIds.forEach(function(_unitId){
-				this._overlapEventListener[_unitId].forEach(function(overlap){
-					var _unitIdPoint = this.getPoint(_unitId);
-					var relative = this._getRelativePosition({x:x,y:y}, _unitIdPoint);
-					overlap.execute(relative);
-				}, this);
-			}, this);
-
+			this._executeOverlapEventListener(x, y);
 			this.add(x, y, unitId);
 		}
+	},
+	/**
+	 * とあるユニットの移動地点を元に、イベントを発火させます。
+	 * このイベントが本当に発火するかどうかは引数によって決定します。
+	 * @param x ユニットのX軸
+	 * @param y ユニットのY軸
+	 * @private
+	 */
+	_executeOverlapEventListener:function(x, y){
+		var unitIds = Object.keys(this._overlapEventListener);
+		unitIds.forEach(function(checkUnitId){
+			this._overlapEventListener[checkUnitId].forEach(function(overlap){
+				var _unitIdPoint = this.getPoint(checkUnitId);
+				var relative = this._getRelativePosition({x:x,y:y}, _unitIdPoint);
+				overlap.execute(relative);
+			}, this);
+		}, this);
 	},
 	getPoint:function(unitId){
 		if(unitId in this._units) {
