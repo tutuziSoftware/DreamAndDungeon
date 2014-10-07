@@ -166,4 +166,29 @@ describe('Map', function() {
 			map.moveUnit('rika', Map.TOP);
 		});
 	});
+
+	describe('実装：とあるユニットからX距離内に侵入したらイベントを発生させる', function(){
+		beforeEach(function(){
+			//3,4にid:testがいる
+
+			map.add(24, 4, 'town');
+		});
+
+		it('圏内に入った時、イベントを発火させる', function(done){
+			map.addEventListener('town', {
+				name:'overlap',
+				args:{
+					range:20
+				},
+				listener:function(){
+					expect(true).toBeTruthy();
+					done();
+				}
+			});
+
+			map.moveUnit('test', Map.RIGHT);
+
+			expect(map.getPoint('test').x).toBe(4);
+		});
+	});
 });
