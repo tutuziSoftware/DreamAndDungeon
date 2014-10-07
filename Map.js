@@ -1,20 +1,7 @@
 function Map(callback){
 	this._units = {};
 	this._point = {};
-	/**
-	 *
-	 * @type { 'ユニットのID':{
-	 *  	'イベント名':[
-	 *  		{
-	 *  		 	'args':{},
-	 *  		 	'listener':function
-	 *  		}
-	 *  	]
-	 * 	}
-	 * }
-	 * @private
-	 */
-	this._eventListener = {};
+	this._overlapEventListener = [];
 
 	var self = this;
 	this._inout = new InOut();
@@ -51,30 +38,31 @@ Map.prototype = {
 	},
 	addEventListener:function(unitId, eventName, eventListener){
 		if(arguments.length === 3){
-			this._addEventListener(unitId, {
+			this._addOverlapEventListener(unitId, {
 				name:eventName,
 				listener:eventListener
 			});
 		}else if(arguments.length === 2){
 			var eventOption = eventName;
-			this._addEventListener(unitId, eventOption);
+			this._addOverlapEventListener(unitId, eventOption);
 		}
 	},
-	_addEventListener:function(unitId, eventOption){
-		var eventName = eventOption['name'];
-
-		if(unitId in this._eventListener === false){
-			this._eventListener[unitId] = {};
+	_addOverlapEventListener:function(unitId, eventOption){
+		if(unitId in this['_'+eventOption['name']+'EventListener'] === false){
+			this['_'+eventOption['name']+'EventListener'][unitId] = [];
 		}
 
-		if(eventName in this._eventListener[unitId] === false){
-			this._eventListener[unitId][eventName] = [];
+		var overlapArgs = {
+			listener:eventOption.listener
+		};
+
+		if('args' in eventOption === false || 'range' in eventOption.args === false){
+			overlapArgs.range = 1;
+		}else{
+			overlapArgs.range = eventOption.args.range;
 		}
 
-		this._eventListener[unitId][eventName].push(new Map.Overlap({
-			args:eventOption['args'],
-			listener:eventOption['listener']
-		}));
+		this['_'+eventOption['name']+'EventListener'][unitId].push(new Map.Overlap(overlapArgs));
 	},
 	moveUnit:function(unitId, move){
 		var point = this.getPoint(unitId);
@@ -92,22 +80,16 @@ Map.prototype = {
 			var x = oldPoint.x + move.x;
 			var y = oldPoint.y + move.y;
 
-			//TODO イベントの発火可否はここではなく各イベントのクラスが行うべき
-			//TODO [unitId][eventName]ではなく[eventName][unitId]の方が妥当？
-			//			→イベントの性質によりけりかも。overlapは後者が妥当
+			var unitIds = Object.keys(this._overlapEventListener);
+			unitIds.forEach(function(_unitId){
+				this._overlapEventListener[_unitId].forEach(function(overlap){
+					var _unitIdPoint = this.getPoint(_unitId);
+					var relative = this._getRelativePosition({x:x,y:y}, _unitIdPoint);
+					overlap.execute(relative);
+				}, this);
+			}, this);
 
-			if(this._isUnitExist(x, y)){
-				var etcUnitId = this._point[this._getPointKey(x, y)];
-				if('overlap' in this._eventListener[etcUnitId]){
-					this._eventListener[etcUnitId]['overlap'].forEach(function(event){
-						event.execute(this._getRelativePosition(etcUnitId, unitId));
-					}, this);
-				}
-
-				this.add(x, y, unitId);
-			}else{
-				this.add(x, y, unitId);
-			}
+			this.add(x, y, unitId);
 		}
 	},
 	getPoint:function(unitId){
