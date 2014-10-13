@@ -17,17 +17,19 @@ DAD.controller('charactersController', function($scope){
 
 	//ユニット登録
 	//データは{id:{ユニットの情報}}という感じで保存されている。
-	['characters', 'enemys', 'towns'].forEach(function(unitsKey){
-		inout.get(function(units){
-			roopUnits(units, [
-				statusToStatusObject,
-				addActionQueue,
-				addCountAction,
-				initMap]
-			);
-			$scope[unitsKey] = units;
-		}, unitsKey);
-	});
+	['characters', 'enemys'].forEach(entryUnits.bind(this, [
+		statusToStatusObject,
+		addActionQueue,
+		addCountAction,
+		initMap
+	]));
+
+	entryUnits([
+		initMap,
+		lookTown
+	], 'towns');
+
+
 
 	/**
 	 * ユニットの行動回数を記録します。
@@ -69,6 +71,9 @@ DAD.controller('charactersController', function($scope){
 		if($scope['enemys'][$scope.turnUnit.id]){
 			$scope.log.push($scope.turnUnit.name + "のターン！")
 			$scope.nextTurn($scope.turnUnit);
+		}else if($scope.towns[$scope.turnUnit.id]){
+			$scope.log.push($scope.turnUnit.name + "の街が見える");
+			$scope.nextTurn();
 		}
 	};
 
@@ -167,12 +172,24 @@ DAD.controller('charactersController', function($scope){
 		}
 	};
 
-	function roopUnits(units, functions){
-		Object.keys(units).forEach(function(unitsKey){
-			functions.forEach(function(f){
-				f(units[unitsKey]);
+	/**
+	 * ユニットの初期化処理を行う関数です。
+	 * @param boots 永続化ストレージから取得したデータを処理する関数群です
+	 * @param unitsKey 永続化ストレージから取得するデータ名です。　(例)'characters' 'enemys'
+	 */
+	function entryUnits(boots, unitsKey){
+		inout.get(function(units){
+			roopUnits(units, boots);
+			$scope[unitsKey] = units;
+		}, unitsKey);
+
+		function roopUnits(units, functions){
+			Object.keys(units).forEach(function(unitsKey){
+				functions.forEach(function(f){
+					f(units[unitsKey]);
+				});
 			});
-		});
+		}
 	}
 
 	/**
@@ -202,6 +219,22 @@ DAD.controller('charactersController', function($scope){
 		if(point === Map.NullPoint){
 			map.add(5, 5, unit.id);
 		}
+	}
+
+	/**
+	 * 街の視認範囲に入った時の処理を追加します。
+	 * @param town
+	 */
+	function lookTown(town){
+		map.addEventListener(town.id, {
+			name:'overlap',
+			args:{
+				range:20
+			},
+			listener:function(){
+				$scope.actionQueue.add(town);
+			}
+		});
 	}
 });
 
