@@ -159,9 +159,15 @@ describe('Map', function() {
 			map.add(2, 5, 'bootlo');
 			map.add(2, 6, 'rika');
 
-			map.addEventListener('bootlo', 'overlap', function(){
-				expect(true).toBeTruthy();
-				done();
+			map.addEventListener('bootlo', {
+				name:'overlap',
+				args:{
+					range:0
+				},
+				listener:function(){
+					expect(true).toBeTruthy();
+					done();
+				}
 			});
 			map.moveUnit('rika', Map.TOP);
 		});
@@ -191,4 +197,31 @@ describe('Map', function() {
 			expect(map.getPoint('test').x).toBe(4);
 		});
 	});
+
+	/*
+	describe('実装：unitInイベント', function(){
+		beforeEach(function(){
+			//3,4にid:testがいる
+
+			map.add(24, 4, 'town');
+		});
+
+		it('圏内に入った時、イベントを発火させる', function(done){
+			map.addEventListener('town', {
+				name:'unitIn',
+				args:{
+					range:20
+				},
+				listener:function(){
+					expect(true).toBeTruthy();
+					done();
+				}
+			});
+
+			map.moveUnit('test', Map.RIGHT);
+
+			expect(map.getPoint('test').x).toBe(4);
+		});
+	});
+	*/
 });
