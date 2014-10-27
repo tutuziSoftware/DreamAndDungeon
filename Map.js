@@ -12,7 +12,8 @@ function Map(callback){
 	 * 		}
 	 * @private
 	 */
-	this._overlapEventListener = {};
+	this._overlapEventListeners = {};
+	this._unitInEventListeners = {};
 
 	var self = this;
 	this._inout = new InOut();
@@ -47,33 +48,14 @@ Map.prototype = {
 
 		this._setUnit(x, y, unitId);
 	},
-	addEventListener:function(unitId, eventName, eventListener){
-		if(arguments.length === 3){
-			this._addOverlapEventListener(unitId, {
-				name:eventName,
-				listener:eventListener
-			});
-		}else if(arguments.length === 2){
-			var eventOption = eventName;
-			this._addOverlapEventListener(unitId, eventOption);
-		}
-	},
-	_addOverlapEventListener:function(unitId, eventOption){
-		if(unitId in this['_'+eventOption['name']+'EventListener'] === false){
-			this['_'+eventOption['name']+'EventListener'][unitId] = [];
+	addEventListener:function(unitId, eventArgs){
+		var eventName = eventArgs.name.charAt(0).toUpperCase() + eventArgs.name.slice(1);
+
+		if(unitId in this['_'+eventArgs['name']+'EventListeners'] === false){
+			this['_'+eventArgs['name']+'EventListeners'][unitId] = [];
 		}
 
-		var overlapArgs = {
-			listener:eventOption.listener
-		};
-
-		if('args' in eventOption === false || 'range' in eventOption.args === false){
-			overlapArgs.range = 1;
-		}else{
-			overlapArgs.range = eventOption.args.range;
-		}
-
-		this['_'+eventOption['name']+'EventListener'][unitId].push(new Map.Overlap(overlapArgs));
+		this['_'+eventArgs['name']+'EventListeners'][unitId].push(new Map[eventName](eventArgs));
 	},
 	moveUnit:function(unitId, move){
 		var point = this.getPoint(unitId);
@@ -92,8 +74,19 @@ Map.prototype = {
 			var y = oldPoint.y + move.y;
 
 			this._executeOverlapEventListener(x, y);
+			this._executeUnitInEventListener(x, y);
 			this.add(x, y, unitId);
 		}
+	},
+	_executeUnitInEventListener:function(x, y){
+		var unitIds = Object.keys(this._unitInEventListeners);
+		unitIds.forEach(function(checkUnitId){
+			this._unitInEventListeners[checkUnitId].forEach(function(unitIn){
+				var _unitIdPoint = this.getPoint(checkUnitId);
+				var relative = this._getRelativePosition({x:x,y:y}, _unitIdPoint);
+				unitIn.execute(relative);
+			}, this);
+		}, this);
 	},
 	/**
 	 * とあるユニットの移動地点を元に、イベントを発火させます。
@@ -103,9 +96,9 @@ Map.prototype = {
 	 * @private
 	 */
 	_executeOverlapEventListener:function(x, y){
-		var unitIds = Object.keys(this._overlapEventListener);
+		var unitIds = Object.keys(this._overlapEventListeners);
 		unitIds.forEach(function(checkUnitId){
-			this._overlapEventListener[checkUnitId].forEach(function(overlap){
+			this._overlapEventListeners[checkUnitId].forEach(function(overlap){
 				var _unitIdPoint = this.getPoint(checkUnitId);
 				var relative = this._getRelativePosition({x:x,y:y}, _unitIdPoint);
 				overlap.execute(relative);
@@ -225,13 +218,30 @@ Map.prototype = {
  * @constructor
  */
 Map.Overlap = function(args){
-	this._range = 'range' in args ? args['range'] : 1;
+	if('args' in args == false) {
+		throw '正しい引数を指定してください';
+	}
+
+	this._range = 'range' in args.args ? args.args.range : 1;
 	this._listener = 'listener' in args ? args['listener'] : function(){};
 }
 
 Map.Overlap.prototype = {
 	execute:function(relativePosition){
 		if(relativePosition <= this._range){
+			this._listener();
+		}
+	}
+};
+
+Map.UnitIn = function(args){
+	this._range = 'range' in args.args ? args.args.range : 1;
+	this._listener = 'listener' in args ? args['listener'] : function(){};
+};
+
+Map.UnitIn.prototype = {
+	execute:function(relativePosition){
+		if(relativePosition == this._range){
 			this._listener();
 		}
 	}
