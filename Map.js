@@ -13,6 +13,7 @@ function Map(callback){
 	 * @private
 	 */
 	this._overlapEventListeners = {};
+	this._unitInEventListeners = {};
 
 	var self = this;
 	this._inout = new InOut();
@@ -73,8 +74,19 @@ Map.prototype = {
 			var y = oldPoint.y + move.y;
 
 			this._executeOverlapEventListener(x, y);
+			this._executeUnitInEventListener(x, y);
 			this.add(x, y, unitId);
 		}
+	},
+	_executeUnitInEventListener:function(x, y){
+		var unitIds = Object.keys(this._unitInEventListeners);
+		unitIds.forEach(function(checkUnitId){
+			this._unitInEventListeners[checkUnitId].forEach(function(unitIn){
+				var _unitIdPoint = this.getPoint(checkUnitId);
+				var relative = this._getRelativePosition({x:x,y:y}, _unitIdPoint);
+				unitIn.execute(relative);
+			}, this);
+		}, this);
 	},
 	/**
 	 * とあるユニットの移動地点を元に、イベントを発火させます。
@@ -217,6 +229,19 @@ Map.Overlap = function(args){
 Map.Overlap.prototype = {
 	execute:function(relativePosition){
 		if(relativePosition <= this._range){
+			this._listener();
+		}
+	}
+};
+
+Map.UnitIn = function(args){
+	this._range = 'range' in args.args ? args.args.range : 1;
+	this._listener = 'listener' in args ? args['listener'] : function(){};
+};
+
+Map.UnitIn.prototype = {
+	execute:function(relativePosition){
+		if(relativePosition == this._range){
 			this._listener();
 		}
 	}

@@ -198,7 +198,6 @@ describe('Map', function() {
 		});
 	});
 
-	/*
 	describe('実装：unitInイベント', function(){
 		beforeEach(function(){
 			//3,4にid:testがいる
@@ -218,10 +217,13 @@ describe('Map', function() {
 				}
 			});
 
+			//圏内に入ったのでイベントが発火する
 			map.moveUnit('test', Map.RIGHT);
-
 			expect(map.getPoint('test').x).toBe(4);
+
+			//圏内だが、入った後なのでイベントは発火しない
+			map.moveUnit('test', Map.RIGHT);
+			expect(map.getPoint('test').x).toBe(5);
 		});
 	});
-	*/
 });
