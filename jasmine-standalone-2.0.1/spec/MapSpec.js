@@ -174,9 +174,13 @@ describe('Map', function() {
 	});
 
 	describe('実装：とあるユニットからX距離内に侵入したらイベントを発生させる', function(){
-		beforeEach(function(){
-			//3,4にid:testがいる
+		var map;
 
+		beforeEach(function(){
+			delete localStorage['maps'];
+
+			map = new Map;
+			map.add(3, 4, 'test');
 			map.add(24, 4, 'town');
 		});
 
@@ -193,27 +197,35 @@ describe('Map', function() {
 			});
 
 			map.moveUnit('test', Map.RIGHT);
-
 			expect(map.getPoint('test').x).toBe(4);
 		});
 	});
 
 	describe('実装：unitInイベント', function(){
-		beforeEach(function(){
-			//3,4にid:testがいる
+		var map;
 
+		beforeEach(function(){
+			delete localStorage['maps'];
+
+			map = new Map;
+			map.add(3, 4, 'test');
 			map.add(24, 4, 'town');
 		});
 
 		it('圏内に入った時、イベントを発火させる', function(done){
+			var i = 0;
+
 			map.addEventListener('town', {
 				name:'unitIn',
 				args:{
 					range:20
 				},
 				listener:function(){
-					expect(true).toBeTruthy();
-					done();
+					if(i == 0){
+						expect(true).toBeTruthy();
+						i++;
+						done();
+					}
 				}
 			});
 
