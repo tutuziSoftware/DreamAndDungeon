@@ -6,7 +6,7 @@ describe('Unit', function(){
 			localStorage['characters'] = JSON.stringify({
 				'rika':{
 					id:'rika',
-						hp:10,
+					hp:10,
 					san:89,
 					status:'NONE'
 				}
@@ -18,8 +18,14 @@ describe('Unit', function(){
 		it('idのgetter',function(){
 			expect(unit.id).toBe('rika');
 		});
-		it('hpのgetter');
-		it('sanのgetter');
-		it('statusのgetter');
+		it('hpのgetter',function(){
+			expect(unit.hp).toBe(10);
+		});
+		it('sanのgetter',function(){
+			expect(unit.san).toBe(89);
+		});
+		it('statusのgetter',function(){
+			expect(unit.status).toBe(Unit.STATUS.NONE);
+		});
 	});
 });

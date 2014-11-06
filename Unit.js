@@ -7,13 +7,28 @@ function Unit(localStorageKey){
     this._unitKey = localStorageKey;
 }
 
+Unit.STATUS = {};
+Unit.STATUS.NONE = {
+    toString:function(){
+        return 'ふつう';
+    }
+};
+
 Unit.prototype = {
     get id(){
         return this._toObject['id'];
     },
 
     get hp(){
+        return this._toObject['hp'];
+    },
 
+    get san(){
+        return this._toObject['san'];
+    },
+
+    get status(){
+        return Unit.STATUS[this._toObject['status']];
     },
 
     /**
