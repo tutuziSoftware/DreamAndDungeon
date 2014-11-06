@@ -19,6 +19,10 @@ Unit.prototype = {
         return this._toObject['id'];
     },
 
+    get name(){
+        return this._toObject['name'];
+    },
+
     get hp(){
         return this._toObject['hp'];
     },
