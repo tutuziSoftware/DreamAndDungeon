@@ -1,14 +1,6 @@
 var DAD = angular.module('DAD',[]);
 
 DAD.controller('charactersController', function($scope){
-	var STATUS = {
-		NONE:{
-			toString:function(){
-				return 'ふつう';
-			}
-		}
-	}
-
 	var inout = new InOut();
 	var map = new Map;
 
@@ -18,7 +10,6 @@ DAD.controller('charactersController', function($scope){
 	//ユニット登録
 	//データは{id:{ユニットの情報}}という感じで保存されている。
 	['characters', 'enemys'].forEach(entryUnits.bind(this, [
-		statusToStatusObject,
 		addActionQueue,
 		addCountAction,
 		initMap
@@ -179,25 +170,30 @@ DAD.controller('charactersController', function($scope){
 	 */
 	function entryUnits(boots, unitsKey){
 		inout.get(function(units){
-			roopUnits(units, boots);
-			$scope[unitsKey] = units;
+			if(units == InOut.KEY_NOT_EXIST){
+				console.log(unitsKey + 'は存在しないデータです');
+				return;
+			}
+
+			$scope[unitsKey] = roopUnits(units, boots);
 		}, unitsKey);
 
 		function roopUnits(units, functions){
-			Object.keys(units).forEach(function(unitsKey){
+			var unitIds = Object.keys(units);
+			var _units = {};
+
+			unitIds.forEach(function(unitKey){
+				_units[unitKey] = new Unit(unitKey);
+			});
+
+			unitIds.forEach(function(unitsKey){
 				functions.forEach(function(f){
-					f(units[unitsKey]);
+					f(_units[unitsKey]);
 				});
 			});
-		}
-	}
 
-	/**
-	 * 取得したデータのキー「status」をオブジェクトに置換します。
-	 * @param unitsKey
-	 */
-	function statusToStatusObject(unit){
-		unit.status = STATUS[unit.status];
+			return _units;
+		}
 	}
 
 	/**
