@@ -40,6 +40,17 @@ Unit.prototype = {
      * @private
      */
     get _toObject(){
-        return JSON.parse(localStorage['characters'])[this._unitKey];
+        var unit;
+
+        ['characters', 'enemys'].forEach(function(groupKey){
+            var units = JSON.parse(localStorage[groupKey]);
+
+            if(this._unitKey in units){
+                unit = units[this._unitKey];
+                return;
+            }
+        }, this);
+
+        return unit;
     }
 };
