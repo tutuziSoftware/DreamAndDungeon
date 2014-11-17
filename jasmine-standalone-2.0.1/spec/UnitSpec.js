@@ -35,6 +35,12 @@ describe('Unit', function(){
 		it('Unit.STATUS.NONE.toString()',function(){
 			expect(Unit.STATUS.NONE.toString()).toBe('ふつう');
 		});
+
+		it('hpの減少', function(){
+			unit.hp -= 1;
+			expect(unit.hp).toBe(9);
+			expect(JSON.parse(localStorage['characters']).rika.hp).toBe(9);
+		});
 	});
 
 	describe('敵の生成', function(){
