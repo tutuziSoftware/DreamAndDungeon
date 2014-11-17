@@ -5,6 +5,15 @@
  */
 function Unit(localStorageKey){
     this._unitKey = localStorageKey;
+
+    ['characters', 'enemys'].forEach(function(groupKey){
+        var units = JSON.parse(localStorage[groupKey]);
+
+        if(this._unitKey in units){
+            this._unitGroupId = groupKey;
+            return;
+        }
+    }, this);
 }
 
 Unit.STATUS = {};
@@ -21,6 +30,10 @@ Unit.prototype = {
 
     get name(){
         return this._toObject['name'];
+    },
+
+    set hp(hp){
+
     },
 
     get hp(){
@@ -40,17 +53,6 @@ Unit.prototype = {
      * @private
      */
     get _toObject(){
-        var unit;
-
-        ['characters', 'enemys'].forEach(function(groupKey){
-            var units = JSON.parse(localStorage[groupKey]);
-
-            if(this._unitKey in units){
-                unit = units[this._unitKey];
-                return;
-            }
-        }, this);
-
-        return unit;
+        return JSON.parse(localStorage[this._unitGroupId])[this._unitKey];
     }
 };
