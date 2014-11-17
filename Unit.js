@@ -10,7 +10,13 @@ function Unit(localStorageKey){
         var units = JSON.parse(localStorage[groupKey]);
 
         if(this._unitKey in units){
-            this._unitGroupId = groupKey;
+            this._groupId = groupKey;
+            this._unit = units[this._unitKey];
+
+            ['id', 'name'].forEach(function(property){
+                this[property] = this._unit[property];
+            }, this);
+
             return;
         }
     }, this);
@@ -24,35 +30,26 @@ Unit.STATUS.NONE = {
 };
 
 Unit.prototype = {
-    get id(){
-        return this._toObject['id'];
-    },
-
-    get name(){
-        return this._toObject['name'];
-    },
-
-    set hp(hp){
-
+    set hp(newHp){
+        this._unit.hp = newHp;
+        this._save();
     },
 
     get hp(){
-        return this._toObject['hp'];
+        return this._unit.hp;
     },
 
     get san(){
-        return this._toObject['san'];
+        return this._unit.san;
     },
 
     get status(){
-        return Unit.STATUS[this._toObject['status']];
+        return Unit.STATUS[this._unit.status];
     },
 
-    /**
-     * localStorageから必要な値をオブジェクトに変換します。
-     * @private
-     */
-    get _toObject(){
-        return JSON.parse(localStorage[this._unitGroupId])[this._unitKey];
+    _save:function(){
+        var group = JSON.parse(localStorage[this._groupId]);
+        group[this._unitKey] = this._unit;
+        localStorage[this._groupId] = JSON.stringify(group);
     }
 };

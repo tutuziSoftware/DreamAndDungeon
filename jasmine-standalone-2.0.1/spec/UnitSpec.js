@@ -38,7 +38,8 @@ describe('Unit', function(){
 
 		it('hpの減少', function(){
 			unit.hp -= 1;
-			//expect(unit.hp).toBe(9);
+			expect(unit.hp).toBe(9);
+			expect(JSON.parse(localStorage['characters']).rika.hp).toBe(9);
 		});
 	});
 
