@@ -83,4 +83,37 @@ describe('Unit', function(){
 			expect(unit.status).toBe(Unit.STATUS.NONE);
 		});
 	});
+
+	describe('HPが0になったらlocalStorageから破棄する', function(){
+		var unit;
+
+		beforeEach(function(){
+			localStorage['enemys'] = JSON.stringify({
+				'anaguma1':{
+					id:'anaguma1',
+					name:'アナグマ',
+					hp:10,
+					san:89,
+					status:'NONE'
+				},
+				'anaguma2':{
+					id:'anaguma2',
+					name:'アナグマ',
+					hp:10,
+					san:89,
+					status:'NONE'
+				}
+			});
+
+			unit = new Unit('anaguma1');
+		});
+
+		it('hpを0にする', function(){
+			unit.hp = 0;
+
+			var units = JSON.parse(localStorage['enemys']);
+
+			expect('anaguma1' in units).toBe(false);
+		});
+	});
 });

@@ -49,7 +49,15 @@ Unit.prototype = {
 
     _save:function(){
         var group = JSON.parse(localStorage[this._groupId]);
-        group[this._unitKey] = this._unit;
+        if(this._isDead() == false){
+            group[this._unitKey] =  this._unit;
+        }else{
+            delete group[this._unitKey];
+        }
         localStorage[this._groupId] = JSON.stringify(group);
+    },
+
+    _isDead:function(){
+        return this._unit.hp <= 0;
     }
 };
