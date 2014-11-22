@@ -6,7 +6,7 @@
 function Unit(localStorageKey){
     this._unitKey = localStorageKey;
 
-    ['characters', 'enemys'].forEach(function(groupKey){
+    ['characters', 'enemys', 'towns'].forEach(function(groupKey){
         var units = JSON.parse(localStorage[groupKey]);
 
         if(this._unitKey in units){

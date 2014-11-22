@@ -116,4 +116,23 @@ describe('Unit', function(){
 			expect('anaguma1' in units).toBe(false);
 		});
 	});
+
+	describe('街', function(){
+		beforeEach(function(){
+			localStorage['towns'] = JSON.stringify({
+				'bootlo':{
+					id:'bootlo',
+					name:'ブートロ',
+					hp:999,
+					status:'TOWN'
+				}
+			});
+		});
+
+		it('ブートロ', function(){
+			var unit = new Unit('bootlo');
+
+			expect(unit.name).toBe('ブートロ');
+		});
+	});
 });
