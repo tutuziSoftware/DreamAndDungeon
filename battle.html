@@ -68,7 +68,7 @@
 				<dt>行動順</dt>
 				<dd>
 					<ol>
-						<li ng-repeat='unit in actionQueue.queue'>{{unit.name}}</li>
+						<li ng-repeat='unit in actionQueue.queue'>{{unit.name}}({{getPoint(unit.id)}})</li>
 					</ol>
 				</dd>
 			</dl>
