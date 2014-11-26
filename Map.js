@@ -74,8 +74,11 @@ Map.prototype = {
 			var y = oldPoint.y + move.y;
 
 			this._executeOverlapEventListener(x, y);
-			this._executeUnitInEventListener(x, y);
-			this.add(x, y, unitId);
+			var isExecuteUnitIn = this._executeUnitInEventListener(x, y);
+
+			if(!isExecuteUnitIn){
+				this.add(x, y, unitId);
+			}
 		}
 	},
 	_executeUnitInEventListener:function(x, y){
@@ -243,6 +246,9 @@ Map.UnitIn.prototype = {
 	execute:function(relativePosition){
 		if(relativePosition == this._range){
 			this._listener();
+			return true;
 		}
+
+		return false;
 	}
 };
