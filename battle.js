@@ -231,6 +231,17 @@ DAD.controller('charactersController', function($scope){
 				$scope.actionQueue.add(town);
 			}
 		});
+
+		map.addEventListener(town.id, {
+			name:'unitIn',
+			args:{
+				range:0
+			},
+			listener:function(){
+				console.log('test');
+				location.href = './town.html';
+			}
+		});
 	}
 });
 
