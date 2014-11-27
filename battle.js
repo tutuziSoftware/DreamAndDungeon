@@ -235,7 +235,7 @@ DAD.controller('charactersController', function($scope){
 		map.addEventListener(town.id, {
 			name:'unitIn',
 			args:{
-				range:0
+				range:1
 			},
 			listener:function(){
 				console.log('test');
