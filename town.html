@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
+<head>
     <meta charset="UTF-8">
     <title></title>
+    <script src="lib/angular.min.js"></script>
+    <script src="town.js"></script>
 </head>
-<body>
-
+<body ng-app>
+<ul ng-init="menus = ['やどや','どうぐや','ギルド','さんさく']">
+    <li ng-repeat="menu in menus">
+        <a>{{menu}}</a>
+    </li>
+</ul>
 </body>
 </html>
