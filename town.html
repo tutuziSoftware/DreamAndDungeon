@@ -6,10 +6,10 @@
     <script src="lib/angular.min.js"></script>
     <script src="town.js"></script>
 </head>
-<body ng-app>
-<ul ng-init="menus = ['やどや','どうぐや','ギルド','さんさく']">
-    <li ng-repeat="menu in menus">
-        <a>{{menu}}</a>
+<body ng-app="DAD">
+<ul ng-controller="menuController">
+    <li ng-repeat="menu in menuList">
+        <a>{{menu.name}}</a>
     </li>
 </ul>
 </body>
