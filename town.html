@@ -7,10 +7,21 @@
     <script src="town.js"></script>
 </head>
 <body ng-app="DAD">
-<ul ng-controller="menuController">
-    <li ng-repeat="menu in menuList">
-        <a>{{menu.name}}</a>
-    </li>
-</ul>
+<div ng-controller="menuController">
+    <ul>
+        <li ng-repeat="menu in menuList">
+            <a href="" ng-click="selectMenu(menu.id)">{{menu.name}}</a>
+        </li>
+    </ul>
+    <dl ng-show="showMenu()">
+        test
+        <dt>{{selectedMenu.name}}</dt>
+        <dd>
+            <ul>
+                <li></li>
+            </ul>
+        </dd>
+    </dl>
+</div>
 </body>
 </html>
