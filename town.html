@@ -17,8 +17,10 @@
         test
         <dt>{{selectedMenu.name}}</dt>
         <dd>
-            <ul>
-                <li></li>
+            <ul ng-repeat="nextMenu in selectedMenu.next">
+                <li>
+                    <a href="" ng-click="nextMenu.listener()">{{nextMenu.name}}</a>
+                </li>
             </ul>
         </dd>
     </dl>

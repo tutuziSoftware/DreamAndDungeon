@@ -7,8 +7,11 @@ DAD.controller('menuController', function($scope){
             id:'yadoya',
             next:{
                 'yadoya_gohan':{
-                    name:'ごはんをたべる',
-                    id:'yadoya_gohan'
+                    name:'ごはんをたべる(100G)',
+                    id:'yadoya_gohan',
+                    listener:function(){
+                        console.log('ここに処理置いていいの？');
+                    }
                 }
             }
         },
