@@ -1,6 +1,7 @@
 var DAD = angular.module('DAD',[]);
 
 DAD.controller('menuController', function($scope){
+    //TODO データ構造については要検討。各街で違うので、データはここにベタ書きしない方が良さそう
     $scope.menuList = {
         'yadoya':{
             name:'やどや',
@@ -17,15 +18,22 @@ DAD.controller('menuController', function($scope){
         },
         'douguya':{
             name:'どうぐや',
-            id:'douguya'
+            id:'douguya',
+            next:{/*動的に切り替える*/}
         },
         'guild':{
             name:'ギルド',
-            id:'guild'
+            id:'guild',
+            listener:function(){
+                //イベント発生とか
+            }
         },
         'sansaku':{
             name:'さんさく',
-            id:'sansaku'
+            id:'sansaku',
+            listener:function(){
+                //イベント発生とか
+            }
         }
     };
 
