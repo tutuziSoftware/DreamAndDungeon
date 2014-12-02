@@ -1,6 +1,8 @@
 var DAD = angular.module('DAD',[]);
 
 DAD.controller('menuController', function($scope){
+    $scope.money = new Money();
+
     //TODO データ構造については要検討。各街で違うので、データはここにベタ書きしない方が良さそう
     $scope.menuList = {
         'yadoya':{

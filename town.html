@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <title></title>
     <script src="lib/angular.min.js"></script>
+    <script src="Money.js"></script>
     <script src="town.js"></script>
 </head>
 <body ng-app="DAD">
 <div ng-controller="menuController">
+    <dl>
+        <dt>おかね</dt><dd>{{money.toNumber}}</dd>
+    </dl>
     <ul>
         <li ng-repeat="menu in menuList">
             <a href="" ng-click="selectMenu(menu.id)">{{menu.name}}</a>
