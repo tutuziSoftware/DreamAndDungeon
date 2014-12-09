@@ -10,7 +10,7 @@
 <body ng-app="DAD">
 <div ng-controller="menuController">
     <dl>
-        <dt>おかね</dt><dd>{{money.toNumber}}</dd>
+        <dt>おかね</dt><dd>{{money+0}}</dd>
     </dl>
     <ul>
         <li ng-repeat="menu in menuList">
@@ -18,7 +18,6 @@
         </li>
     </ul>
     <dl ng-show="showMenu()">
-        test
         <dt>{{selectedMenu.name}}</dt>
         <dd>
             <ul ng-repeat="nextMenu in selectedMenu.next">

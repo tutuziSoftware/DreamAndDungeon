@@ -6,6 +6,9 @@ function Money(){
 
 
 Money.prototype = {
+    valueOf:function(){
+        return +localStorage['money'];
+    },
     get toNumber(){
         return +localStorage['money'];
     },
