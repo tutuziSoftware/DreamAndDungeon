@@ -54,3 +54,13 @@ DAD.controller('menuController', function($scope){
         return $scope.selectedMenu != DEFAULT_MENU;
     };
 });
+
+
+DAD.controller('storyController', function($scope, $http){
+    $http({
+        method:'get',
+        url:'/DreamAndDungeon/story/1_1.json'
+    }).success(function(xml){
+
+    });
+});
