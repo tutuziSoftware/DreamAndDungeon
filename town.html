@@ -4,30 +4,28 @@
     <meta charset="UTF-8">
     <title></title>
     <script src="lib/angular.min.js"></script>
+    <script src="lib/jquery-2.1.1.min.js"></script>
     <script src="Money.js"></script>
     <script src="town.js"></script>
 </head>
 <body ng-app="DAD">
 <div ng-controller="storyController">
-    <div>{{}}</div>
+    <div ng-click="next()">{{spot}}</div>
+    <div ng-click="next()">{{talk}}</div>
 </div>
 <div ng-controller="menuController">
     <dl>
-        <dt>おかね</dt><dd>{{money+0}}</dd>
+        <dt>おかね</dt><dd>{{money+0}}G</dd>
     </dl>
     <ul>
         <li ng-repeat="menu in menuList">
-            <a href="" ng-click="selectMenu(menu.id)">{{menu.name}}</a>
+            <a href="" ng-click="$parent.selectedMenu = menu">{{menu}}</a>
         </li>
     </ul>
-    <dl ng-show="showMenu()">
-        <dt>{{selectedMenu.name}}</dt>
-        <dd>
-            <ul ng-repeat="nextMenu in selectedMenu.next">
-                <li>
-                    <a href="" ng-click="nextMenu.listener()">{{nextMenu.name}}</a>
-                </li>
-            </ul>
+    <dl ng-show="selectedMenu">
+        <dt>{{selectedMenu}}</dt>
+        <dd ng-if="selectedMenu == 'どうぐや'">
+            どうぐや
         </dd>
     </dl>
 </div>

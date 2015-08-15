@@ -1,5 +1,8 @@
 <html ng-app='DAD'>
 	<head>
+		<link rel="stylesheet" href="lib/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="lib/dist/css/bootstrap-theme.min.css">
+		<script src="lib/dist/js/bootstrap.min.js"></script>
 		<script src='./lib/jquery-2.1.1.min.js'></script>
 		<script src='./lib/angular.min.js'></script>
 		<script src='./lib/dadUnits.js'></script>
@@ -13,7 +16,7 @@
 		<script src='./battle.js'></script>
 	</head>
 	<body>
-		<div ng-controller='charactersController'>
+		<div ng-controller='charactersController' class="container">
 			<ul ng-repeat='character in characters'>
 				<li>
 					<div>PC:{{character.name}}</div>
