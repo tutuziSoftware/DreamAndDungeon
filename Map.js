@@ -1,3 +1,9 @@
+/**
+ * 2Dのマップを表現します。
+ * このオブジェクトのX軸、Y軸は数値型の最大値、最小値になります。
+ * @param callback
+ * @constructor
+ */
 function Map(callback){
 	this._units = {};
 	this._point = {};
